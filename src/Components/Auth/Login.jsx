@@ -94,77 +94,6 @@ const Login = () => {
   };
   return (
     <>
-      {/* <div className="container" style={{ height: "100vh" }}>
-        <div className="row" style={{ height: "70vh" }}>
-          <div
-            className="col-12 col-md-6 mb-2 p-5 mb-md-0"
-            style={{ backgroundColor: "#D1EFEE" }}
-          >
-            <div className="mb-4">
-              <h5>Welcome to Expense Tracker</h5>
-            </div>
-            <form onSubmit={login}>
-              <div className="mb-4">
-                <label htmlFor="uname" className="form-label float-start mb-3">
-                  Sign in
-                </label>
-                <input
-                  type="email"
-                  id="uname"
-                  name="email"
-                  className="form-control"
-                  placeholder="Email"
-                  onChange={onChange} // Corrected attribute name
-                />
-              </div>
-              <div className="mb-4">
-                <input
-                  type="password"
-                  id="psw"
-                  name="password"
-                  className="form-control"
-                  placeholder="Password"
-                  onChange={onChange} // Corrected attribute name
-                />
-              </div>
-              <div className="form-check form-switch mb-4">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  id="flexSwitchCheckDefault"
-                />
-                <label
-                  className="form-check-label float-start"
-                  htmlFor="flexSwitchCheckDefault"
-                >
-                  Remember me
-                </label>
-              </div>
-              <div className="mb-4 d-grid">
-                <button
-                  type="submit"
-                  className="btn float-start"
-                  style={{ backgroundColor: "#125957", color: "white" }}
-                >
-                  Sign in
-                </button>
-              </div>
-              <div className="mb-4">
-                <h6>
-                  <p>
-                    Dont’t have an account?<Link to="/register"> Sign up</Link>
-                  </p>
-                </h6>
-              </div>
-            </form>
-          </div>
-          <div className="col-12 col-md-6 p-0">
-            <img src={loginImage} alt="login" className="img-fluid w-100" />
-          </div>
-        </div>
-        <ToastContainer autoClose={1500} />
-      </div> */}
       <div
         className="container  d-flex  justify-content-center"
         style={{ height: "100vh" }}
@@ -242,6 +171,10 @@ const Login = () => {
                   </button>
                 </div>
               </form>
+              <div className="mt-2 text-center">
+                Don't have an account?
+                <Link to="/register">Register</Link>
+              </div>
               <div className="social-login d-flex mt-4 p-0 justify-content-between">
                 <button
                   className="btn btn-outline-primary  rounded-circle py-2"
