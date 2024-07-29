@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import loginImage from '../../../src/images/login.jpg';
 
 
 const Login = () => {
@@ -36,7 +37,7 @@ const Login = () => {
     <>
       <div className="container">
         <div className="row">
-          <div className="col-sm-6 p-5 mb-2" style={{ backgroundColor: '#D1EFEE' }}>
+          <div className="col-12 col-md-6 mb-2 p-5 mb-md-0" style={{backgroundColor: '#D1EFEE'}}>
             <div className="mb-4">
               <h5>Welcome to Expense Tracker</h5>
             </div>
@@ -70,15 +71,13 @@ const Login = () => {
               <button type="submit" className="btn float-start"  style={{ backgroundColor: '#125957', color: 'white'}}>Sign in</button>
               </div>
               <div className="mb-4">
-                <h6><p>Dont’t have an account?<a href="sign up"></a> Sign up</p></h6>
+                <h6><p>Dont’t have an account?<a href="Signup"> Sign up</a></p></h6>
               </div>
             </form>
           </div>
-          <div className="col-sm-6">
-            <h2>Don't have an account?</h2>
-            <p>
-              <a href="/register">Register here</a>
-            </p>
+          <div className="col-12 col-md-6 p-0">
+            {/* <h1>this is my first page</h1> */}
+          <img src={loginImage} alt="login" className="img-fluid w-100"/>
           </div>
           <ToastContainer autoClose={1500} />
         </div>
