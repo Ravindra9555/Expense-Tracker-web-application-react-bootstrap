@@ -3,6 +3,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
+
 const Login = () => {
   const baseurl = "http://localhost:3005";
 
@@ -32,32 +33,58 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <>
       <div className="container">
-        <form onSubmit={login}>
-          <label htmlFor="uname">Email</label>
-          <br />
-          <input
-            type="email"
-            id="uname"
-            name="email"
-            onChange={onChange}  // Corrected attribute name
-          />
-          <br />
-          <label htmlFor="psw">Password:</label>
-          <br />
-          <input
-            type="password"
-            id="psw"
-            name="password"
-            onChange={onChange}  // Corrected attribute name
-          />
-          <br />
-          <button type="submit">Submit</button>
-        </form>
+        <div className="row">
+          <div className="col-sm-6 p-5 mb-2" style={{ backgroundColor: '#D1EFEE' }}>
+            <div className="mb-4">
+              <h5>Welcome to Expense Tracker</h5>
+            </div>
+            <form onSubmit={login}>
+              <div className="mb-4">
+                <label htmlFor="uname" className="form-label float-start mb-3">Sign in</label>
+                <input
+                  type="email"
+                  id="uname"
+                  name="email"
+                  className="form-control"
+                  placeholder="Email"
+                  onChange={onChange}  // Corrected attribute name
+                />
+              </div>
+              <div className="mb-4">
+                <input
+                  type="password"
+                  id="psw"
+                  name="password"
+                  className="form-control"
+                  placeholder="Password"
+                  onChange={onChange}  // Corrected attribute name
+                />
+              </div>
+              <div className="form-check form-switch mb-4">
+                <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" />
+                <label className="form-check-label float-start" htmlFor="flexSwitchCheckDefault">Remember me</label>
+              </div>
+              <div className="mb-4 d-grid">
+              <button type="submit" className="btn float-start"  style={{ backgroundColor: '#125957', color: 'white'}}>Sign in</button>
+              </div>
+              <div className="mb-4">
+                <h6><p>Dont’t have an account?<a href="sign up"></a> Sign up</p></h6>
+              </div>
+            </form>
+          </div>
+          <div className="col-sm-6">
+            <h2>Don't have an account?</h2>
+            <p>
+              <a href="/register">Register here</a>
+            </p>
+          </div>
+          <ToastContainer autoClose={1500} />
+        </div>
       </div>
-      <ToastContainer autoClose={1500} />
-    </div>
+    </>
+
   );
 };
 
