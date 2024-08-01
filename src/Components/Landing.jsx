@@ -5,6 +5,7 @@ const Landing = () => {
   return (
     <>
       <Navbar />
+      <h1>Gaurav Babu Landing Page Bna dijiye Jaldi se </h1>
       <Loader/>
     </>
   );
