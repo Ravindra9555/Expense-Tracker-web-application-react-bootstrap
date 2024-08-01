@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 import { Link ,useNavigate } from "react-router-dom";
 import img from "../../assets/img/register.png";
@@ -107,6 +106,8 @@ const Register = () => {
         <div
           className="row  login-row rounded-4  mt-4"
           style={{ height: "70vh" }}
+           data-aos="zoom-in" data-aos-duration="1500"
+           
         >
           <div
             className="col-md-6  p-4 w-5 mt-4 rounded"
@@ -197,25 +198,28 @@ const Register = () => {
               Already! have an account?
                 <Link to="/login">login</Link>
               </div>
-              <div className="social-login d-flex mt-4 p-0 justify-content-between">
-                <button
-                  className="btn btn-outline-primary  rounded-circle py-2"
-                  onClick={handleSocial}
-                >
-                  <i className="bi bi-google fs-5"></i>{" "}
-                </button>
-                <button
-                  className="btn btn-outline-primary  rounded-circle py-2"
-                  onClick={handleSocial}
-                >
-                  <i className="bi bi-meta fs-5"></i>
-                </button>
-                <button
-                  className="btn btn-outline-primary  rounded-circle py-2"
-                  onClick={handleSocial}
-                >
-                  <i className="bi bi-linkedin fs-5"></i>
-                </button>
+          
+              <div className="d-flex justify-content-center">
+                <div className="social-login d-flex mt-4 p-0 justify-content-between w-50">
+                  <button
+                    className="btn btn-outline-primary  rounded-circle py-2"
+                    onClick={handleSocial}
+                  >
+                    <i className="bi bi-google fs-5"></i>{" "}
+                  </button>
+                  <button
+                    className="btn btn-outline-primary  rounded-circle py-2"
+                    onClick={handleSocial}
+                  >
+                    <i className="bi bi-meta fs-5"></i>
+                  </button>
+                  <button
+                    className="btn btn-outline-primary  rounded-circle py-2"
+                    onClick={handleSocial}
+                  >
+                    <i className="bi bi-linkedin fs-5"></i>
+                  </button>
+                </div>
               </div>
             </div>
           </div>

@@ -1,20 +1,17 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import loginImage from "../../../src/images/login.jpg";
 import Swal from "sweetalert2";
-import { Link ,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import img from "../../assets/img/login.svg";
 import { validateEmail, validatePassword } from "../../utils/validation";
 
 const Login = () => {
-   const navigate= useNavigate();
+  const navigate = useNavigate();
   const [data, setData] = useState({
     email: "",
     password: "",
   });
-
 
   const submitForm = async (e) => {
     e.preventDefault();
@@ -45,19 +42,18 @@ const Login = () => {
         `${import.meta.env.VITE_BASEURL}/api/v1/users/login`,
         data
       );
-  
-      console.log('Response:', res); // Log the response
+
+      console.log("Response:", res); // Log the response
       if (res.status === 200 && res.data.statusCode === 200) {
         toast.success(res.data.message);
         if (res.data.data.accessToken && res.data.data.refreshToken) {
           localStorage.setItem("access_token", res.data.data.accessToken);
           localStorage.setItem("refresh_token", res.data.data.refreshToken);
         } else {
-          console.error('Tokens are missing in the response');
+          console.error("Tokens are missing in the response");
         }
-
       }
-      navigate("/register")
+      navigate("/register");
     } catch (error) {
       console.log(error);
       Swal.fire({
@@ -68,7 +64,7 @@ const Login = () => {
       });
     }
   };
-  
+
   const onChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
@@ -100,6 +96,8 @@ const Login = () => {
       >
         <div
           className="row  login-row rounded-4  mt-4"
+          data-aos="zoom-in"
+          data-aos-duration="1500"
           style={{ height: "70vh" }}
         >
           <div
@@ -175,25 +173,27 @@ const Login = () => {
                 Don't have an account?
                 <Link to="/register">Register</Link>
               </div>
-              <div className="social-login d-flex mt-4 p-0 justify-content-between">
-                <button
-                  className="btn btn-outline-primary  rounded-circle py-2"
-                  onClick={handleSocial}
-                >
-                  <i className="bi bi-google fs-5"></i>{" "}
-                </button>
-                <button
-                  className="btn btn-outline-primary  rounded-circle py-2"
-                  onClick={handleSocial}
-                >
-                  <i className="bi bi-meta fs-5"></i>
-                </button>
-                <button
-                  className="btn btn-outline-primary  rounded-circle py-2"
-                  onClick={handleSocial}
-                >
-                  <i className="bi bi-linkedin fs-5"></i>
-                </button>
+              <div className="d-flex justify-content-center">
+                <div className="social-login d-flex mt-4 p-0 justify-content-between w-50">
+                  <button
+                    className="btn btn-outline-primary  rounded-circle py-2"
+                    onClick={handleSocial}
+                  >
+                    <i className="bi bi-google fs-5"></i>{" "}
+                  </button>
+                  <button
+                    className="btn btn-outline-primary  rounded-circle py-2"
+                    onClick={handleSocial}
+                  >
+                    <i className="bi bi-meta fs-5"></i>
+                  </button>
+                  <button
+                    className="btn btn-outline-primary  rounded-circle py-2"
+                    onClick={handleSocial}
+                  >
+                    <i className="bi bi-linkedin fs-5"></i>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
