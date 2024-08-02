@@ -14,7 +14,7 @@ const Loader = () => {
       >
        
         <div class="loader">
-        <h2>Thoda Wait kr Ligiye ! .. 😅</h2>
+        <h2>Thoda Wait kariye na ! .. 😅</h2>
           <div class="truckWrapper">
             <div class="truckBody">
               <svg

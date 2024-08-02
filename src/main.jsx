@@ -12,9 +12,13 @@ import 'sweetalert2/src/sweetalert2.scss'
 import "react-toastify/dist/ReactToastify.css";
 import 'aos/dist/aos.css'; // Import AOS CSS
 import AOS from 'aos'; // Import AOS JS
+import { UserProvider } from './Components/Context/UserContext.jsx';
 AOS.init();
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-)
+    <UserProvider>
+      <App />
+    </UserProvider>
+  </React.StrictMode>
+);

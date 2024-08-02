@@ -1,32 +1,54 @@
 import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import logo from "../../assets/react.svg";
-
+import { useUser } from "../Context/UserContext";
+import setting from "../../assets/img/user.gif";
 const sidebar = [
   {
     label: "Dashboard",
     icon: "bi-house",
-    url: "/",
+    url: "/dashboard",
     children: [],
   },
   {
-    label: "Write Prescription",
+    label: "Add Expense ",
     icon: "bi-pencil",
-    url: "/writeprescription",
+    url: "/add/expense",
     children: [],
   },
   {
-    label: "Previous Prescription",
+    label: "Expense Details",
     icon: "bi-grid",
     url: "#",
     children: [
-      { label: "Prescription 20/07/2024", url: "/products/1" },
-      { label: "Prescription 25/07/2024", url: "/products/2" },
+      { label: "January", url: "/jan" },
+      { label: "February ", url: "/feb" },
+      { label: "March ", url: "/mar" },
+      { label: "April ", url: "/apr" },
+      { label: "May ", url: "/may" },
+      { label: "June ", url: "/jun" },
+      { label: "July ", url: "/jul" },
+      { label: "August ", url: "/aug" },
+      { label: "September ", url: "/sep" },
+      { label: "October ", url: "/oct" },
+      { label: "November ", url: "/nov" },
+      { label: "December ", url: "/dec" },
     ],
   },
 ];
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+
+  const { user } = useUser();
+  if (!user) {
+    return <Redirect to="/login" />;
+  }
+  const logout = () => {
+    localStorage.removeItem("user");
+    localStorage.clear();
+    navigate("/login");
+  };
   return (
     <div className="container-fluid">
       <div className="row flex-nowrap">
@@ -37,8 +59,7 @@ const Dashboard = () => {
           <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-black min-vh-100">
             <div className="d-flex align-items-center pb-3 mb-md-0 me-md-auto  text-decoration-none ">
               {/* <span className="fs-5 d-none d-sm-inline text-black">Menu</span> */}
-              <img src="https://images.pexels.com/photos/6289030/pexels-photo-6289030.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" height={60} alt="" />
-              <div className="patients-card  container-fluid  text-center"></div>
+              <img src={logo} height={60} alt="" />
             </div>
             <ul
               className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
@@ -123,7 +144,7 @@ const Dashboard = () => {
                 id="navbarSupportedContent"
               >
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                  <li className="nav-item">Home</li>
+                  {/* <li className="nav-item">Home</li> */}
                 </ul>
                 <div className="dropdown">
                   <span
@@ -133,38 +154,42 @@ const Dashboard = () => {
                     aria-expanded="false"
                   >
                     <img
-                      src="https://img.freepik.com/premium-photo/medical-concept-indian-doctor-uniform-standing-hospital_1164587-4682.jpg?w=740"
+                      src={setting}
                       alt="hugenerd"
                       width="50"
                       height="50"
                       data-bs-toggle="tooltip"
                       data-bs-placement="left"
-                      title="Mr. Ravindra Kumar"
+                      title={user.email}
                       className="rounded-circle"
                     />
-                    <button className=" btn btn-outline-danger d-none d-sm-inline  py-1 m-1">
-                      Logout{" "}
-                      <i class="bi bi-box-arrow-right   me-1  ms-1 fs-5"></i>
-                    </button>
                   </span>
                   <ul
                     className="dropdown-menu dropdown-menu-end dropdown-menu-light text-small shadow"
                     aria-labelledby="dropdownUser1"
                   >
                     <li>
-                      <span className="dropdown-item">Dr. Shandya Rathee </span>
+                      <span className="dropdown-item">{user.email} </span>
                     </li>
                     <li>
-                      <span className="dropdown-item">Settings</span>
+                      <li>
+                        <span className="dropdown-item">Profile</span>
+                      </li>
+                      <span className="dropdown-item">Change Password </span>
                     </li>
-                    <li>
-                      <span className="dropdown-item">Profile</span>
-                    </li>
-                    <li>
+                    {/* <li>
                       <hr className="dropdown-divider" />
-                    </li>
+                    </li> */}
                   </ul>
                 </div>
+                <button
+                  className=" btn btn-outline-danger d-none d-sm-inline  py-1 m-1"
+                  type="button"
+                  onClick={logout}
+                >
+                  Logout
+                  <i class="bi bi-box-arrow-right   me-1  ms-1 fs-5"></i>
+                </button>
               </div>
             </div>
           </nav>
