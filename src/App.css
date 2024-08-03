@@ -25,6 +25,32 @@ body {
 /*  login  */
 .login-row{
     width: 90%;
-
-   
 }
+
+
+/* Add this to your CSS file */
+.chart-wrapper {
+    width: 35vw !important;
+    height: 50vh ; /* Adjust this based on your requirement */
+    position: relative;
+  }
+  
+  .responsive-chart {
+    width: 100% !important;
+    height: 100% !important;
+  }
+  
+  @media (max-width: 768px) {
+    .chart-wrapper {
+      height: 300px;
+      width: 50vw !important;
+      /* Adjust height for smaller screens */
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .chart-wrapper {
+      height: 250px; /* Further adjust height for extra small screens */
+    }
+  }
+  

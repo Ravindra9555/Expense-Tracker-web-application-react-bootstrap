@@ -162,7 +162,7 @@ const Login = () => {
               style={{ height: "100vh" }}
             >
               <div
-                className="row  login-row rounded-4  mt-2"
+                className="row container rounded-4  mt-2"
                 data-aos="zoom-in"
                 data-aos-duration="1500"
                 style={{ height: "70vh" }}

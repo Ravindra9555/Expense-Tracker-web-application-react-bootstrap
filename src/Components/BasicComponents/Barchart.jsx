@@ -39,34 +39,71 @@
 
 // export default Barchart;
 
- import React from 'react'
- import { BarChart } from '@mui/x-charts/BarChart';
- const Barchart = () => {
+//  import React from 'react'
+//  import { BarChart } from '@mui/x-charts/BarChart';
+//  const Barchart = () => {
 
-const pData = [2400, 1398, 9800, 3908, 4800, 3800, 4300];
-const xLabels = [
-  'Page A',
-  'Page B',
-  'Page C',
-  'Page D',
-  'Page E',
-  'Page F',
-  'Page G',
-];
-   return (
-     <div>
-        <BarChart
-      width={500}
-      height={300}
-      series={[
-        { data: pData, label: 'pv', id: 'pvId', stack: 'total' },
-     
-      ]}
-      xAxis={[{ data: xLabels, scaleType: 'band' }]}
-    />
-     </div>
-   )
- }
- 
- export default Barchart
- 
+// const options = {
+//   responsive: true,
+//   maintainAspectRatio: false,
+//   // other options
+// };
+
+//    return (
+//      <div>
+//         <BarChart
+//       width={300}
+//      height={300}
+//       // options={[{responsive:true},{maintainAspectRatio:false}]
+
+//       // }
+// series={[
+//   { data: pData, label: 'pv', id: 'pvId', stack: 'total' },
+
+// ]}
+// xAxis={[{ data: xLabels, scaleType: 'band' }]}
+//     />
+//      </div>
+//    )
+//  }
+
+//  export default Barchart
+
+import React from "react";
+import { BarChart } from "@mui/x-charts/BarChart";
+
+const Barchart = () => {
+  const pData = [
+    2400, 1398, 9800, 3908, 4800, 3800, 4300, 4556, 9600, 347, 545, 4456,
+  ];
+  const xLabels = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const options = {
+    responsive: true,
+  };
+
+  return (
+    <div className="chart-wrapper">
+      <BarChart
+        series={[{ data: pData, label: "Monthly Expense", id: "pvId", stack: "total" }]}
+        xAxis={[{ data: xLabels, scaleType: "band" }]}
+        options={options}
+        className="responsive-chart"
+      />
+    </div>
+  );
+};
+
+export default Barchart;
