@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -60,18 +59,21 @@ const AddExpenses = () => {
           },
         }
       );
-     
+
       if (response.status === 200 && response.data.statusCode === 200) {
         setInitialAmount(response.data.data || "0000");
         setFormData((prevFormData) => ({
           ...prevFormData,
-          initialAmount: response.data.data|| "0000",
+          initialAmount: response.data.data || "0000",
         }));
       } else {
         toast.error("Error fetching initial amount");
       }
     } catch (error) {
-      console.error("Error fetching initial amount:", error.response || error.message);
+      console.error(
+        "Error fetching initial amount:",
+        error.response || error.message
+      );
       toast.error("Error fetching initial amount");
     }
   };
@@ -92,11 +94,10 @@ const AddExpenses = () => {
     setUpdate(!update);
   };
 
-  const updateAmount =()=>{
-     console.log(" call api ")
-     setUpdate(!update);
-
-  }
+  const updateAmount = () => {
+    console.log(" call api ");
+    setUpdate(!update);
+  };
   const handleInitialAmountChange = (e) => {
     setInitialAmount(e.target.value);
     setFormData((prevFormData) => ({
@@ -160,7 +161,7 @@ const AddExpenses = () => {
           title: response.data.message,
           icon: "success",
           confirmButtonText: "Go to Expenses",
-        })
+        });
         console.log(response.data.message);
         setFormData({
           userId: user.id,
@@ -195,12 +196,8 @@ const AddExpenses = () => {
             <p className="text-start">
               Please Select the Months for Which you want to add the Expense
             </p>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
+            <Box className="row">
+              <div className="col-md-6">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={["DatePicker"]}>
                   <DatePicker
@@ -212,9 +209,10 @@ const AddExpenses = () => {
                   />
                 </DemoContainer>
               </LocalizationProvider>
-
+              </div>
+              <div className="col-md-6">
               <TextField
-                sx={{ mt: 1, ml: 2 }}
+                sx={{ mt: 1,}}
                 id="initialAmount"
                 disabled={update}
                 value={initialAmount}
@@ -223,17 +221,37 @@ const AddExpenses = () => {
                 label="Initial Amount of Month"
                 variant="outlined"
               />
-              {
-                update
-                 ? <Button variant="contained" sx={{ mt: 1, ml: 2, p: 2 }}    onClick={()=>setUpdate(!update)}>
-                    Update Expenses
-                  </Button>
-                  : <Button variant="contained" sx={{ mt: 1, ml: 2, p: 2 }}   onClick={updateAmount}>
-                   update
-                  </Button> 
-              }
-             
+              {update ? (
+                <Button
+                  variant="contained"
+                  sx={{ mt: 1, ml: 2, p: 2 }}
+                  onClick={() => setUpdate(!update)}
+                >
+                  Update
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  sx={{ mt: 1, ml: 2, p: 2 }}
+                  onClick={updateAmount}
+                >
+                  Add
+                </Button>
+              )}
+
+              </div>
+
             </Box>
+            {/* <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+             
+
+             
+            </Box> */}
           </div>
           <div className="mt-2 bg-light rounded p-2">
             <h5 className="text-center">Add Expenses</h5>
@@ -312,7 +330,11 @@ const AddExpenses = () => {
                 )}
               </div>
               <div className="d-flex justify-content-end">
-              <Button variant="contained" sx={{ mt: 1, ml: 2, p: 2 }} type="submit" >
+                <Button
+                  variant="contained"
+                  sx={{ mt: 1, ml: 2, p: 2 }}
+                  type="submit"
+                >
                   Add Expense
                 </Button>
               </div>
@@ -325,4 +347,3 @@ const AddExpenses = () => {
 };
 
 export default AddExpenses;
-

@@ -17,24 +17,30 @@ const sidebar = [
     children: [],
   },
   {
-    label: "Expense Details",
-    icon: "bi-grid",
-    url: "#",
-    children: [
-      { label: "January", url: "/jan" },
-      { label: "February ", url: "/feb" },
-      { label: "March ", url: "/mar" },
-      { label: "April ", url: "/apr" },
-      { label: "May ", url: "/may" },
-      { label: "June ", url: "/jun" },
-      { label: "July ", url: "/jul" },
-      { label: "August ", url: "/aug" },
-      { label: "September ", url: "/sep" },
-      { label: "October ", url: "/oct" },
-      { label: "November ", url: "/nov" },
-      { label: "December ", url: "/dec" },
-    ],
+    label: "Add Expense ",
+    icon: " bi-journal-text",
+    url: "/monthly/expense",
+    children: [],
   },
+  // {
+  //   label: "Expense Details",
+  //   icon: "bi-grid",
+  //   url: "#",
+  //   children: [
+  //     { label: "January", url: "/jan" },
+  //     { label: "February ", url: "/feb" },
+  //     { label: "March ", url: "/mar" },
+  //     { label: "April ", url: "/apr" },
+  //     { label: "May ", url: "/may" },
+  //     { label: "June ", url: "/jun" },
+  //     { label: "July ", url: "/jul" },
+  //     { label: "August ", url: "/aug" },
+  //     { label: "September ", url: "/sep" },
+  //     { label: "October ", url: "/oct" },
+  //     { label: "November ", url: "/nov" },
+  //     { label: "December ", url: "/dec" },
+  //   ],
+  // },
 ];
 
 const Dashboard = () => {
@@ -58,8 +64,8 @@ const Dashboard = () => {
         >
           <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-black min-vh-100">
             <div className="d-flex align-items-center pb-3 mb-md-0 me-md-auto  text-decoration-none ">
-              {/* <span className="fs-5 d-none d-sm-inline text-black">Menu</span> */}
-              <img src={logo} height={60} alt="" />
+              <span className="fs-5 d-none d-sm-inline text-black">Ex.</span>
+              {/* <img src={logo} height={40} alt="" /> */}
             </div>
             <ul
               className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"

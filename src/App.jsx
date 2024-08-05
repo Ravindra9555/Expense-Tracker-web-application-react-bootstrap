@@ -1,12 +1,12 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import './App.css';
-import Landing from './Components/Landing';
-import Login from './Components/Auth/Login';
-import Register from './Components/Auth/Register';
-import Dashbaord from "./Components/Layout/Dashboard"
-import Dashboardmain from './Components/Pages/Dashboardmain';
-import AddExpenses from './Components/Pages/AddExpenses';
-
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./App.css";
+import Landing from "./Components/Landing";
+import Login from "./Components/Auth/Login";
+import Register from "./Components/Auth/Register";
+import Dashbaord from "./Components/Layout/Dashboard";
+import Dashboardmain from "./Components/Pages/Dashboardmain";
+import AddExpenses from "./Components/Pages/AddExpenses";
+import MonthlyExpense from "./Components/Pages/MonthlyExpense";
 // App.js
 function App() {
   return (
@@ -17,10 +17,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
-          <Route path="/" element={<Dashbaord/>}>
+          <Route path="/" element={<Dashbaord />}>
             <Route path="dashboard" element={<Dashboardmain />} />
-            <Route path="add/expense" element={<AddExpenses/>} />
-
+            <Route path="add/expense" element={<AddExpenses />} />
+            <Route path="monthly/expense" element={<MonthlyExpense />} />
           </Route>
         </Routes>
       </BrowserRouter>
