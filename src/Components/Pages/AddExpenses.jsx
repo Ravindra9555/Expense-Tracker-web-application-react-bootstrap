@@ -12,7 +12,7 @@ import { useUser } from "../Context/UserContext";
 import { bearerToken } from "../../utils/BearerToken";
 import Loader from "../BasicComponents/Loader";
 import Swal from "sweetalert2";
-
+import ai from "../../assets/ai.svg";
 const categories = [
   { id: 1, name: "Grocery" },
   { id: 2, name: "Travel" },
@@ -38,13 +38,50 @@ const AddExpenses = () => {
     bill_img: "",
   });
   const [imgPreview, setImgPreview] = useState("");
+  const [genAI, setGenAI] = useState(false);
 
   useEffect(() => {
     getInitialAmount();
   }, [formData.month, formData.year, user.id]);
 
+  const generateDescription = async () => {
+    if (formData.amount === "" || formData.type === "") {
+      toast.warn("Please fill Amount and Type fields");
+      return;
+    }
+    try {
+      setGenAI(true);
+      const res = await axios.post(
+        `${import.meta.env.VITE_BASEURL}/api/v1/expenses/generateDescription`,
+        {
+          date: formData.date,
+          amount: formData.amount,
+          category: formData.category,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: bearerToken(),
+          },
+        }
+      );
+      if (res.status === 200 && res.data.success === true) {
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          name: res.data.data.response.candidates[0].content.parts[0].text,
+        }));
+        setGenAI(false);
+      }
+    } catch (error) {
+      setGenAI(false);
+      console.error("Error generating description:", error.message);
+      toast.error("Error generating description");
+    }
+  };
+
   const getInitialAmount = async () => {
     try {
+      
       const response = await axios.get(
         `${import.meta.env.VITE_BASEURL}/api/v1/expenses/initialAmount`,
         {
@@ -66,7 +103,9 @@ const AddExpenses = () => {
           ...prevFormData,
           initialAmount: response.data.data || "0000",
         }));
+      
       } else {
+      
         toast.error("Error fetching initial amount");
       }
     } catch (error) {
@@ -198,49 +237,47 @@ const AddExpenses = () => {
             </p>
             <Box className="row">
               <div className="col-md-6">
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={["DatePicker"]}>
-                  <DatePicker
-                    label="Month/Year"
-                    openTo="year"
-                    views={["year", "month"]}
-                    value={dayjs(`${formData.year}-${formData.month}-01`)}
-                    onChange={handleYearChange}
-                  />
-                </DemoContainer>
-              </LocalizationProvider>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer components={["DatePicker"]}>
+                    <DatePicker
+                      label="Month/Year"
+                      openTo="year"
+                      views={["year", "month"]}
+                      value={dayjs(`${formData.year}-${formData.month}-01`)}
+                      onChange={handleYearChange}
+                    />
+                  </DemoContainer>
+                </LocalizationProvider>
               </div>
               <div className="col-md-6">
-              <TextField
-                sx={{ mt: 1,}}
-                id="initialAmount"
-                disabled={update}
-                value={initialAmount}
-                onChange={handleInitialAmountChange}
-                type="number"
-                label="Initial Amount of Month"
-                variant="outlined"
-              />
-              {update ? (
-                <Button
-                  variant="contained"
-                  sx={{ mt: 1, ml: 2, p: 2 }}
-                  onClick={() => setUpdate(!update)}
-                >
-                  Update
-                </Button>
-              ) : (
-                <Button
-                  variant="contained"
-                  sx={{ mt: 1, ml: 2, p: 2 }}
-                  onClick={updateAmount}
-                >
-                  Add
-                </Button>
-              )}
-
+                <TextField
+                  sx={{ mt: 1 }}
+                  id="initialAmount"
+                  disabled={update}
+                  value={initialAmount}
+                  onChange={handleInitialAmountChange}
+                  type="number"
+                  label="Initial Amount of Month"
+                  variant="outlined"
+                />
+                {update ? (
+                  <Button
+                    variant="contained"
+                    sx={{ mt: 1, ml: 2, p: 2 }}
+                    onClick={() => setUpdate(!update)}
+                  >
+                    Update
+                  </Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    sx={{ mt: 1, ml: 2, p: 2 }}
+                    onClick={updateAmount}
+                  >
+                    Add
+                  </Button>
+                )}
               </div>
-
             </Box>
             {/* <Box
               sx={{
@@ -296,15 +333,36 @@ const AddExpenses = () => {
                     onChange={onchangeHandler}
                   />
                 </div>
-                <div className="col-sm-4 mb-3">
-                  <label className="form-label">Name of Expense</label>
-                  <input
-                    type="text"
-                    name="name"
-                    className="form-control"
-                    value={formData.name}
-                    onChange={onchangeHandler}
-                  />
+                <div className="col-sm-12 mb-3">
+                  <label className="form-label">Description of Expense</label>
+                  <div className="d-flex">
+                    <textarea
+                      type="text"
+                      name="name"
+                      className="form-control"
+                      placeholder="Enter Description/ Generate with AI in one second..."
+                      value={formData.name}
+                      onChange={onchangeHandler}
+                    />
+                    {!genAI ? (
+                      <button
+                        type="button"
+                        className="btn ms-2"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="top"
+                        data-bs-title="Generate with AI"
+                        onClick={generateDescription}
+                      >
+                        <img className="" src={ai} height={30} />
+                      </button>
+                    ) : (
+                      <>
+                        <div class="spinner-border text-success ms-2" role="status">
+                          <span class="visually-hidden">Generating...</span>
+                        </div>
+                      </>
+                    )}
+                  </div>
                 </div>
                 <div className="col-sm-4 mb-3">
                   <label className="form-label">Bill Image</label>
