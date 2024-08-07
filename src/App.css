@@ -53,4 +53,10 @@ body {
       height: 250px; /* Further adjust height for extra small screens */
     }
   }
+
+  @media (max-width: 576px) {
+    .resetpage {
+      margin-top: 50%; /* Further adjust height for extra small screens */
+    }
+  }
   

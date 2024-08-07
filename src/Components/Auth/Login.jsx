@@ -158,7 +158,7 @@ const Login = () => {
           <Navbar />
           {!showOtpForm ? (
             <div
-              className="container  d-flex  justify-content-center"
+              className="container d-flex justify-content-center"
               style={{ height: "100vh" }}
             >
               <div
@@ -228,7 +228,7 @@ const Login = () => {
                         </label>
                       </div>
                       <div className="mt-2 d-flex justify-content-end">
-                        <Link to="/forgot-password text-end">
+                        <Link to="/forgot">
                           Forgot Password?
                         </Link>
                       </div>
