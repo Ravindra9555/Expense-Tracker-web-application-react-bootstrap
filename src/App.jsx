@@ -4,6 +4,7 @@ import Landing from "./Components/Landing";
 import Login from "./Components/Auth/Login";
 import Register from "./Components/Auth/Register";
 import Forgot from "./Components/Auth/Forgot";
+import ResetPassword from "./Components/Auth/ResetPassword";
 import Dashbaord from "./Components/Layout/Dashboard";
 import Dashboardmain from "./Components/Pages/Dashboardmain";
 import AddExpenses from "./Components/Pages/AddExpenses";
@@ -18,6 +19,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot" element={<Forgot />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
 
           <Route path="/" element={<Dashbaord />}>
             <Route path="dashboard" element={<Dashboardmain />} />
