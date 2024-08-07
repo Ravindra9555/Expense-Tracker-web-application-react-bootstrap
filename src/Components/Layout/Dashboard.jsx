@@ -17,7 +17,7 @@ const sidebar = [
     children: [],
   },
   {
-    label: "Add Expense ",
+    label: "Monthly Account",
     icon: " bi-journal-text",
     url: "/monthly/expense",
     children: [],
