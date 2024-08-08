@@ -13,6 +13,7 @@ import { bearerToken } from "../../utils/BearerToken";
 import Loader from "../BasicComponents/Loader";
 import Swal from "sweetalert2";
 import ai from "../../assets/ai.svg";
+import { useNavigate } from "react-router-dom";
 const categories = [
   { id: 1, name: "Grocery" },
   { id: 2, name: "Travel" },
@@ -24,6 +25,7 @@ const categories = [
 
 const AddExpenses = () => {
   const { user } = useUser();
+   const  navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [initialAmount, setInitialAmount] = useState("0000");
   const [update, setUpdate] = useState(true);
@@ -213,6 +215,7 @@ const AddExpenses = () => {
           bill_img: "",
         });
         setImgPreview("");
+        navigate("/monthly/expense")
       } else {
         toast.error("Form submission failed");
       }

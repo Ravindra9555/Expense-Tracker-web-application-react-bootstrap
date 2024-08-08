@@ -3,7 +3,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { Link, useNavigate } from "react-router-dom";
-import img from "../../assets/img/register.png";
+import img from "../../assets/img/5.svg";
 import { validateEmail, validatePassword } from "../../utils/validation";
 import Navbar from "../BasicComponents/Navbar";
 import Loader from "../BasicComponents/Loader";
@@ -83,16 +83,6 @@ const Register = () => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const handleSocial = () => {
-    // toast.warn("Social login Comming Soon ! ")
-
-    Swal.fire({
-      title: "Error!",
-      text: "Social Login Comming Soon! sorry! for inconvenice",
-      icon: "warning",
-      confirmButtonText: "Okay",
-    });
-  };
 
   const [otp, setOtp] = useState("");
   const submitOtp = async (e) => {
@@ -103,7 +93,7 @@ const Register = () => {
         `${import.meta.env.VITE_BASEURL}/api/v1/verifyOtp/verify`,
         { email: data.email, otp: otp }
       );
-  
+
       // Check the response data
       if (res.data.statusCode === 200 && res.data.success === true) {
         toast.success("Registration Successful");
@@ -132,8 +122,8 @@ const Register = () => {
       });
     }
   };
-  
-  const [showPass, setShowPass] = useState(false);
+
+  const [showPass, setShowPass] = useState(true);
   const [text, setText] = useState("password");
   const showPassword = () => {
     setShowPass(!showPass);
@@ -151,24 +141,23 @@ const Register = () => {
         </>
       ) : (
         <>
-          <Navbar />
+          {/* <Navbar /> */}
           <div
-            className="container  d-flex  justify-content-center"
-            style={{ height: "100vh" }}
+            className="container d-flex justify-content-center  mt-4"
+            style={{ height: "100vh", width: "60vw" }}
           >
             {sendOtp ? (
               <>
                 <div
-                  className="  d-flex justify-content-center login-row rounded-4  mt-2"
-                  style={{ height: "70vh" }}
+                  className="  d-flex justify-content-center  align-items-center rounded "
+                  style={{ height: "100vh" }}
                   data-aos="zoom-in"
                   data-aos-duration="1500"
                 >
                   <div
-                    className="col-md-6  p-4 w-5 mt-4 rounded"
-                    style={{ backgroundColor: "#fff" }}
+                    className="  bg-light rounded"
                   >
-                    <div className="rounded p-4 border">
+                    <div className="rounded  p-4 mt-3">
                       <h6 className="text-center">Verification Code Sent</h6>
                       <p className="text-center">
                         Please enter the verification code sent to your email{" "}
@@ -184,9 +173,7 @@ const Register = () => {
                           name="verificationCode"
                           className="form-control"
                           placeholder="Please enter the verification code"
-                          onChange={(e) => 
-                            setOtp(e.target.value)
-                          }
+                          onChange={(e) => setOtp(e.target.value)}
                         />
                         <button
                           type="submit"
@@ -202,132 +189,96 @@ const Register = () => {
             ) : (
               <>
                 <div
-                  className="row  login-row rounded-4  mt-2"
-                  style={{ height: "70vh" }}
+                  className="row   rounded   mt-4"
                   data-aos="zoom-in"
                   data-aos-duration="1500"
                 >
-                  <div
-                    className="col-md-6  p-4 w-5 mt-4 rounded"
-                    style={{ backgroundColor: "#fff" }}
-                  >
-                    <div className="rounded p-4 border">
-                      <h6 className="text-center">
-                        {" "}
-                        Welcome to Expense Tracker{" "}
-                      </h6>
-                      <form className="mt-4 p-4" onSubmit={submitForm}>
-                        <label htmlFor="" className="form-label">
-                          Email
-                        </label>
+                  <div className="col-md-6 bg-light" style={{height:"80%"}}>
+                    <h6 className="text-center mt-4">
+                      Welcome to Expense Tracker
+                    </h6>
+                    <form className="mt-4 p-4" onSubmit={submitForm}>
+                      <label htmlFor="" className="form-label">
+                        Email
+                      </label>
+                      <input
+                        type="email"
+                        id=""
+                        required
+                        name="email"
+                        className="form-control"
+                        placeholder="Please enter your email "
+                        onChange={onChange}
+                      />
+                      <label htmlFor="" className="form-label mt-2">
+                        Password
+                      </label>
+                      <div className="d-flex">
                         <input
-                          type="email"
+                          type={text}
                           id=""
+                          min={8}
                           required
-                          name="email"
-                          className="form-control"
-                          placeholder="Please enter your email "
+                          name="password"
+                          placeholder="Please enter your password"
+                          className="form-control border-end-0 rounded-end-0 "
                           onChange={onChange}
                         />
-                        <label htmlFor="" className="form-label mt-2">
-                          Password
-                        </label>
-                        <div className="d-flex">
-                          <input
-                            type={text}
-                            id=""
-                            min={8}
-                            required
-                            name="password"
-                            placeholder="Please enter your password"
-                            className="form-control border-end-0 rounded-end-0 "
-                            onChange={onChange}
-                          />
-                          <div className=" rounded-end border-top border-bottom border-end p-2">
-                            {showPass ? (
-                              <i
-                                onClick={showPassword}
-                                className="bi  bi-eye-slash  m-0 p-0 "
-                              ></i>
-                            ) : (
-                              <i
-                                onClick={showPassword}
-                                className="bi bi-eye m-0 p-0 "
-                              ></i>
-                            )}
-                          </div>
-                        </div>
-                        <label htmlFor="" className="form-label mt-2">
-                          Confirm Password
-                        </label>
-                        <div className="d-flex">
-                          <input
-                            type={text}
-                            id=""
-                            min={8}
-                            required
-                            name="confirmPassword"
-                            placeholder="Please enter your password again"
-                            className="form-control border-end-0 rounded-end-0 "
-                            onChange={onChange}
-                          />
-                          <div className=" rounded-end border-top border-bottom border-end p-2">
-                            {showPass ? (
-                              <i
-                                onClick={showPassword}
-                                className="bi  bi-eye-slash  m-0 p-0 "
-                              ></i>
-                            ) : (
-                              <i
-                                onClick={showPassword}
-                                className="bi bi-eye m-0 p-0 "
-                              ></i>
-                            )}
-                          </div>
-                        </div>
-                        <div className="mt-2">
-                          <button
-                            type="submit"
-                            className="btn btn-primary w-100"
-                          >
-                            Register
-                          </button>
-                        </div>
-                      </form>
-                      <div className="mt-2 text-center">
-                        Already! have an account?
-                        <Link to="/login">login</Link>
-                      </div>
-
-                      <div className="d-flex justify-content-center">
-                        <div className="social-login d-flex mt-4 p-0 justify-content-between w-50">
-                          <button
-                            className="btn btn-outline-primary  rounded-circle py-2"
-                            onClick={handleSocial}
-                          >
-                            <i className="bi bi-google fs-5"></i>{" "}
-                          </button>
-                          <button
-                            className="btn btn-outline-primary  rounded-circle py-2"
-                            onClick={handleSocial}
-                          >
-                            <i className="bi bi-meta fs-5"></i>
-                          </button>
-                          <button
-                            className="btn btn-outline-primary  rounded-circle py-2"
-                            onClick={handleSocial}
-                          >
-                            <i className="bi bi-linkedin fs-5"></i>
-                          </button>
+                        <div className=" rounded-end border-top border-bottom border-end p-2">
+                          {showPass ? (
+                            <i
+                              onClick={showPassword}
+                              className="bi  bi-eye-slash  m-0 p-0 "
+                            ></i>
+                          ) : (
+                            <i
+                              onClick={showPassword}
+                              className="bi bi-eye m-0 p-0 "
+                            ></i>
+                          )}
                         </div>
                       </div>
+                      <label htmlFor="" className="form-label mt-2">
+                        Confirm Password
+                      </label>
+                      <div className="d-flex">
+                        <input
+                          type={text}
+                          id=""
+                          min={8}
+                          required
+                          name="confirmPassword"
+                          placeholder="Please enter your password again"
+                          className="form-control border-end-0 rounded-end-0 "
+                          onChange={onChange}
+                        />
+                        <div className=" rounded-end border-top border-bottom border-end p-2">
+                          {showPass ? (
+                            <i
+                              onClick={showPassword}
+                              className="bi  bi-eye-slash  m-0 p-0 "
+                            ></i>
+                          ) : (
+                            <i
+                              onClick={showPassword}
+                              className="bi bi-eye m-0 p-0 "
+                            ></i>
+                          )}
+                        </div>
+                      </div>
+                      <div className="mt-2">
+                        <button type="submit" className="btn btn-primary w-100">
+                          Register
+                        </button>
+                      </div>
+                    </form>
+                    <div className="mt-2 text-center">
+                      Already! have an account?
+                      <Link to="/login">login</Link>
                     </div>
                   </div>
-                  <div
-                    className="col-md-6 p-0 d-flex mt-4 rounded  align-item-center"
-                    style={{ backgroundColor: "#fff" }}
-                  >
-                    <img src={img} alt="login" className="img-fluid w-100" />
+                  <div className="col-md-6  d-flex bg-primary-subtle  align-item-center"  style={{height:"80%"}}>
+                    <img src={img} alt="login" className="img-fluid " />
                   </div>
                 </div>
               </>

@@ -23,7 +23,7 @@ const Navbar = () => {
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-2">
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="#home">
                   Home
@@ -40,14 +40,9 @@ const Navbar = () => {
                 </a>
               </li>
             </ul>
-          </div>
-          <div className="d-flex">
-            <div className="ms-auto">
+            {/* <div className="ms-auto"> */}
               <Link className="btn btn-primary" to="/login">Login</Link>
-            </div>
-            <div className="ms-2">
-              <Link className="btn btn-outline-primary" to="/register">Register</Link>
-            </div>
+            {/* </div> */}
           </div>
         </div>
       </nav>
