@@ -22,32 +22,32 @@ const Navbar = () => {
           >
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <div class="collapse navbar-collapse" id="navbarSupportedContent" style={{marginLeft: "40%"}}>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
+              <li class="nav-item me-3">
                 <a class="nav-link active" aria-current="page" href="#home">
                   Home
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item me-3">
                 <a class="nav-link" href="#about">
                   Who we are
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item me-3">
                 <a class="nav-link" href="#developer">
                   Developer Profile
                 </a>
               </li>
             </ul>
-          </div>
           <div className="d-flex">
-            <div className="ms-auto">
+            <div className="ms-auto loginbutton">
               <Link className="btn btn-primary" to="/login">Login</Link>
             </div>
-            <div className="ms-2">
+            <div className="ms-2 loginbutton">
               <Link className="btn btn-outline-primary" to="/register">Register</Link>
             </div>
+          </div>
           </div>
         </div>
       </nav>

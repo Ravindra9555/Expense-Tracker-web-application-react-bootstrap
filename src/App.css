@@ -7,9 +7,9 @@
     margin: 0;
 }
 
-body {
+/* body {
     background-color: #eae7dc !important;
-}
+} */
 /*  sexond  d8c3a5 text -- 8e8d8a   secondry e98074  pri e85a4f*/
 .font {
     color: #8e8d8a !important
@@ -60,3 +60,9 @@ body {
     }
   }
   
+  @media (max-width: 991px) {
+    .navbar-nav .nav-item{
+        margin-left: -63%;
+    }
+  }
+
