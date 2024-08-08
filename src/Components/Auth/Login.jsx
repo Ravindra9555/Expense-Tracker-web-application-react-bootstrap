@@ -127,7 +127,7 @@ const Login = () => {
     }
   };
 
-  const [showPass, setShowPass] = useState(false);
+  const [showPass, setShowPass] = useState(true);
   const [text, setText] = useState("password");
   const showPassword = () => {
     setShowPass(!showPass);
@@ -218,7 +218,7 @@ const Login = () => {
                       <Link to="/forgot">Forgot Password?</Link>
                     </div>
                     <div className="mt-2">
-                      <button type="submit" className="btn btn-primary w-100">
+                      <button type="submit" className=" btn-primary1 w-100">
                         Sign In
                       </button>
                     </div>
@@ -228,7 +228,7 @@ const Login = () => {
                     <Link to="/register">Register</Link>
                   </div>
                 </div>
-              <div className="col-md-6 bg-primary-subtle d-flex justify-content-center align-items-center"  style={{height:"80%"}}>
+              <div className="col-md-6 background-secondary d-flex justify-content-center align-items-center"  style={{height:"80%"}}>
                 <img
                   src={img}
                   alt="login"
@@ -267,7 +267,7 @@ const Login = () => {
                       />
                       <button
                         type="submit"
-                        className="btn btn-primary mt-4 w-100"
+                        className=" btn-primary1 mt-4 w-100"
                       >
                         Verify
                       </button>

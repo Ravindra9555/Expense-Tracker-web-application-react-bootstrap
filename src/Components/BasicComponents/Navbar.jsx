@@ -2,14 +2,14 @@ import { faWallet } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Link } from "react-router-dom";
-
+import logo from "../../assets/img/1.png";
 const Navbar = () => {
   return (
     <div>
-      <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <nav class="navbar navbar-expand-lg ">
         <div class="container-fluid">
-          <Link class="navbar-brand" to="/">
-            <FontAwesomeIcon icon={faWallet}/> Expense Tracker 
+          <Link class="navbar-brand " to="/">
+          <img src={logo} alt=""  height={50}/>
           </Link>
           <button
             class="navbar-toggler"
@@ -31,7 +31,7 @@ const Navbar = () => {
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#about">
-                  Who we are
+                  About 
                 </a>
               </li>
               <li class="nav-item">
@@ -41,7 +41,7 @@ const Navbar = () => {
               </li>
             </ul>
             {/* <div className="ms-auto"> */}
-              <Link className="btn btn-primary" to="/login">Login</Link>
+              <Link className=" btn-primary1" to="/login">Login</Link>
             {/* </div> */}
           </div>
         </div>

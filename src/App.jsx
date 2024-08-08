@@ -9,12 +9,14 @@ import Dashbaord from "./Components/Layout/Dashboard";
 import Dashboardmain from "./Components/Pages/Dashboardmain";
 import AddExpenses from "./Components/Pages/AddExpenses";
 import MonthlyExpense from "./Components/Pages/MonthlyExpense";
+import PageNotFound from "./Components/BasicComponents/PageNotFound";
 // App.js
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
+          <Route path="*" element={<PageNotFound />} />
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

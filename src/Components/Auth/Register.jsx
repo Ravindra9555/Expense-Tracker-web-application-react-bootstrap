@@ -177,7 +177,7 @@ const Register = () => {
                         />
                         <button
                           type="submit"
-                          className="btn btn-primary mt-4 w-100"
+                          className="btn-primary1 mt-4 w-100"
                         >
                           Verify
                         </button>
@@ -267,7 +267,7 @@ const Register = () => {
                         </div>
                       </div>
                       <div className="mt-2">
-                        <button type="submit" className="btn btn-primary w-100">
+                        <button type="submit" className=" btn-primary1 w-100">
                           Register
                         </button>
                       </div>
@@ -277,7 +277,7 @@ const Register = () => {
                       <Link to="/login">login</Link>
                     </div>
                   </div>
-                  <div className="col-md-6  d-flex bg-primary-subtle  align-item-center"  style={{height:"80%"}}>
+                  <div className="col-md-6  d-flex background-secondary  align-item-center"  style={{height:"80%"}}>
                     <img src={img} alt="login" className="img-fluid " />
                   </div>
                 </div>

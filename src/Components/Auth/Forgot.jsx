@@ -61,7 +61,7 @@ const Forgot = () => {
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-            <button type="submit" className="btn btn-primary mt-4 mb-3 w-100">
+            <button type="submit" className="btn-primary1 mt-4 mb-3 w-100">
               Reset Password
             </button>
           </form>
