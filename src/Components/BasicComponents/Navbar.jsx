@@ -6,7 +6,7 @@ import logo from "../../assets/img/1.png";
 const Navbar = () => {
   return (
     <div>
-      <nav class="navbar navbar-expand-lg ">
+      <nav class="navbar navbar-expand-lg background-secondary">
         <div class="container-fluid">
           <Link class="navbar-brand " to="/">
           <img src={logo} alt=""  height={50}/>
