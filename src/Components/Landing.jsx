@@ -163,7 +163,7 @@ const Landing = () => {
             data-aos="fade-down"
             data-aos-duration="1000"
           >
-            <div className="col-md-4">
+            <div className="col-md-4 mb-3">
               <div className="card background-secondary">
                 <div className="card-body">
                   <i className="bi bi-lock-fill fa-3x mb-3 px-2 rounded-circle background "></i>
@@ -175,7 +175,7 @@ const Landing = () => {
                 </div>
               </div>
             </div>
-            <div className="col-md-4">
+            <div className="col-md-4 mb-3">
               <div className="card background-secondary">
                 <div className="card-body">
                   <i className="bi bi-shield-lock-fill fa-3x mb-3 px-2 rounded-circle background "></i>
@@ -222,7 +222,7 @@ const Landing = () => {
             data-aos="fade-down"
             data-aos-duration="1000"
           >
-            <div className="col-md-4">
+            <div className="col-md-4 mt-3">
               <div className="card background-secondary">
                 <div className="card-body">
                   {/* <i className="bi bi-person-fill fa-3x mb-3"></i> */}
@@ -258,7 +258,7 @@ const Landing = () => {
                 </div>
               </div>
             </div>
-            <div className="col-md-4">
+            <div className="col-md-4 mt-3">
               <div className="card background-secondary">
                 <div className="card-body">
                   <img

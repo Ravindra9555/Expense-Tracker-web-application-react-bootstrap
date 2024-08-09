@@ -7,7 +7,7 @@ const Navbar = () => {
   return (
     <div>
       <nav class="navbar navbar-expand-lg background-secondary">
-        <div class="container-fluid">
+        <div class="container-fluid mb-3">
           <Link class="navbar-brand " to="/">
           <img src={logo} alt=""  height={50}/>
           </Link>
