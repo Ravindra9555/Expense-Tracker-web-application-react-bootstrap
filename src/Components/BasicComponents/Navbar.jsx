@@ -6,7 +6,7 @@ import logo from "../../assets/img/1.png";
 const Navbar = () => {
   return (
     <div>
-      <nav class="navbar navbar-expand-lg background-secondary p-0" >
+      <nav class="navbar navbar-expand-lg  background p-0" >
         <div class="container-fluid">
           <Link class="navbar-brand " to="/">
           <img src={logo} alt=""  height={50}/>
@@ -42,7 +42,7 @@ const Navbar = () => {
             </ul>
             {/* <div className="ms-auto"> */}
               <Link className=" btn-primary1 m-2 ms-0" to="/login">Login</Link>
-              <Link className=" btn-primary1 m-2" to="/register">Register</Link>
+              {/* <Link className=" btn-primary1 m-2" to="/register">Register</Link> */}
             {/* </div> */}
           </div>
         </div>

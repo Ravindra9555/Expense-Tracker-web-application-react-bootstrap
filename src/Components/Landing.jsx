@@ -38,7 +38,7 @@ const Landing = () => {
           >
             <div>
 
-              <h3 >Welcome to Expense Tracker App, <span className="text-primary">< TypeWriter/></span> </h3>
+              <h3 >Welcome to Expense Tracker WebApp, <span className="text-primary">< TypeWriter/></span> </h3>
               <p>
               Managing your finances has never been simpler. With ExpenseTrackerPro, you can track your spending, create budgets, and save more effectively—all in one place.
 
