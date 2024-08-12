@@ -36,7 +36,9 @@
     "react-router-dom": "^6.25.1",
     "react-toastify": "^10.0.5",
     "styled-components": "^6.1.12",
-    "sweetalert2": "^11.12.3"
+    "sweetalert2": "^11.12.3",
+    "swiper": "^11.1.9",
+    "typewriter-effect": "^2.21.0"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",

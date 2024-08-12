@@ -10,6 +10,9 @@ import Dashboardmain from "./Components/Pages/Dashboardmain";
 import AddExpenses from "./Components/Pages/AddExpenses";
 import MonthlyExpense from "./Components/Pages/MonthlyExpense";
 import PageNotFound from "./Components/BasicComponents/PageNotFound";
+import Swiper from "swiper";
+import MySwiper from "./Components/Pages/Swiper";
+import TypeWriter from "./Components/Pages/TypeWriter";
 // App.js
 function App() {
   return (
@@ -19,6 +22,7 @@ function App() {
           <Route path="*" element={<PageNotFound />} />
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/swip" element={<TypeWriter/>} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot" element={<Forgot />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />

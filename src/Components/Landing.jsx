@@ -6,7 +6,7 @@ import logo from "../assets/img/1.png";
 import img2 from "../assets/img/7.svg";
 import ravi from "../assets/img/ravi.jpg";
 import gaurav from "../assets/img/gaurav.jpg";
-
+import Carousel from "./BasicComponents/Carousel";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { fa1, faChartLine, faClock } from "@fortawesome/free-solid-svg-icons";
@@ -14,6 +14,7 @@ import { faWallet } from "@fortawesome/free-solid-svg-icons/faWallet";
 import PieChart from "../Components/BasicComponents/Pichart";
 import Barchart from "../Components/BasicComponents/Barchart";
 import Footer from "./BasicComponents/Footer";
+import TypeWriter from "./Pages/TypeWriter";
 const Landing = () => {
   return (
     <>
@@ -36,10 +37,12 @@ const Landing = () => {
             data-aos-duration="1000"
           >
             <div>
-              <h3>Track Your Expenses Effortlessly</h3>
+
+              <h3 >Welcome to Expense Tracker App, <span className="text-primary">< TypeWriter/></span> </h3>
               <p>
-                Stay on top of your finances with our intuitive expense tracking
-                tool.
+              Managing your finances has never been simpler. With ExpenseTrackerPro, you can track your spending, create budgets, and save more effectively—all in one place.
+
+
               </p>
               <Link to="/register" className="btn-primary1">
                 {" "}
@@ -52,7 +55,8 @@ const Landing = () => {
             data-aos="fade-left"
             data-aos-duration="1000"
           >
-            <img src={img1} alt="" className="img-fluid" />
+            {/* <img src={img1} alt="" className="img-fluid" /> */}
+            <Carousel/>
           </div>
         </div>
 
