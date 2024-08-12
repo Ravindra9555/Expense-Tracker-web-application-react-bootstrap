@@ -13,6 +13,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
+import axios from "axios";
 
 const Dashboardmain = () => {
   const cardData = [
@@ -44,18 +45,26 @@ const Dashboardmain = () => {
   const handleYearChange = (date) => {
     if (date) {
       const year = dayjs(date).year();
-      console.log("Selected Year:", year);
+
+      const month=dayjs(date).month();
+      console.log("Selected Year:", year, month);
       // Call your function with the selected year here
-      // yourFunction(year);
+      // yourFunction(year);      getInfo
+    
+      infoByMonth(month,year);
     }
   };
 
+ const infoByMonth=( month ,yaer )=>{
+  const res= axios.get(`/api/`)
+
+ }
   return (
     <div className="container">
       <div className="mt-2">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DemoContainer components={["DatePicker", "DatePicker"]}>
-            <DatePicker label={'Year'} openTo="year"  onChange={handleYearChange}/>
+            <DatePicker label={'Year'} openTo="year" value={dayjs(new Date().toLocaleDateString())}  onChange={handleYearChange}/>
           </DemoContainer>
         </LocalizationProvider>
       </div>
