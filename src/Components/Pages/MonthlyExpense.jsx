@@ -184,6 +184,7 @@ import axios from "axios";
 import { bearerToken } from "../../utils/BearerToken";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import Swal from "sweetalert2";
 
 const FilterComponent = ({ filterText, onFilter, onClear }) => (
   <>
@@ -214,57 +215,55 @@ const FilterComponent = ({ filterText, onFilter, onClear }) => (
   </>
 );
 
-const columns = [
-  {
-    name: "Expense Type",
-    selector: (row) => row.category,
-    sortable: true,
-  },
-  {
-    name: "Expense Amount",
-    selector: (row) => row.amount,
-    sortable: true,
-  },
-  {
-    name: " Date",
-    selector: (row) => dayjs(row.date).format(),
-    sortable: true,
-  },
-  {
-    name: "Bill Image",
-    selector: (row) => (
-      <a href={row.bill_img} target="_blank" rel="noopener noreferrer">
-        <img
-          src={row.bill_img}
-          height={80}
-          className="rounded-circle m-1"
-          alt=""
-        />
-      </a>
-    ),
-  },
-  {
-    name: "Action",
-    selector: (row) => <>
-    <div className="row">
-      <div className="col">
-        <button className="btn btn-outline-primary border-0" onClick={()=>handleEdit(row._id)}><FontAwesomeIcon icon={faEdit}/></button>
-      </div>
 
-      <div className="col">
-        <button className="btn btn-outline-danger border-0 "  onClick={()=>handleEdit(row._id)}><FontAwesomeIcon icon={faTrash}/></button>
-      </div>
-    </div>
-    </>,
-    sortable: true,
-  },
-];
-
- const handleEdit =(id)=>{
-  console.log("Edit"+ id);
-  
- }
 export const MonthlyExpense = () => {
+  const columns = [
+    {
+      name: "Expense Type",
+      selector: (row) => row.category,
+      sortable: true,
+    },
+    {
+      name: "Expense Amount",
+      selector: (row) => row.amount,
+      sortable: true,
+    },
+    {
+      name: " Date",
+      selector: (row) => dayjs(row.date).format(),
+      sortable: true,
+    },
+    {
+      name: "Bill Image",
+      selector: (row) => (
+        <a href={row.bill_img} target="_blank" rel="noopener noreferrer">
+          <img
+            src={row.bill_img}
+            height={80}
+            className="rounded-circle m-1"
+            alt=""
+          />
+        </a>
+      ),
+    },
+    {
+      name: "Action",
+      selector: (row) => <>
+      {/* <div className="row">
+        <div className="col">
+          <button className="btn btn-outline-primary border-0" onClick={()=>handleEdit(row._id)}><FontAwesomeIcon icon={faEdit}/></button>
+        </div> */}
+  
+        <div className="col">
+          <button className="btn btn-outline-danger border-0 "  onClick={()=>handleEdit(row._id)}><FontAwesomeIcon icon={faTrash}/></button>
+        </div>
+      {/* </div> */}
+      </>,
+      sortable: true,
+    },
+  ];
+  
+  
   const { user } = useUser(); // Get user data from context
 
   const [filterText, setFilterText] = React.useState("");
@@ -328,6 +327,42 @@ export const MonthlyExpense = () => {
     (item) =>
       (item.category &&item.category.toLowerCase().includes(filterText.toLowerCase()))
   );
+
+  const handleEdit = async (id) => {
+    try {
+      const res = await axios.request({
+        method: 'delete',
+        url: `${import.meta.env.VITE_BASEURL}/api/v1/expenses/deleteExpense`,
+        headers: {
+          Authorization: bearerToken(),
+        },
+        data: {
+          userId: user.id,
+          month: data.month,
+          year: data.year,
+          expenseId: id,
+        },
+      });
+  
+      if (res.status === 200 && res.data.statusCode === 200) {
+        console.log("Deleted Successfully");
+        Swal.fire({
+          title: "Deleted Successfully",
+          icon: "success",
+          confirmButtonText: "Okay",
+        });
+        getMonthExpenses(); // Refresh the data after deletion
+      }
+    } catch (error) {
+      Swal.fire({
+        title: "Error",
+        text: error.message,
+        icon: "error",
+        confirmButtonText: "Try Again",
+      });
+    }
+  };
+  
   return (
     <>
       <Box sx={{ display: "flex", alignItems: "center", gap: 2, mt: 2 }}>
