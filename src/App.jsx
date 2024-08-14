@@ -1,40 +1,40 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { lazy, Suspense } from "react";
 import "./App.css";
-import Landing from "./Components/Landing";
-import Login from "./Components/Auth/Login";
-import Register from "./Components/Auth/Register";
-import Forgot from "./Components/Auth/Forgot";
-import ResetPassword from "./Components/Auth/ResetPassword";
-import Dashbaord from "./Components/Layout/Dashboard";
-import Dashboardmain from "./Components/Pages/Dashboardmain";
-import AddExpenses from "./Components/Pages/AddExpenses";
-import MonthlyExpense from "./Components/Pages/MonthlyExpense";
-import PageNotFound from "./Components/BasicComponents/PageNotFound";
-import Swiper from "swiper";
-import MySwiper from "./Components/Pages/Swiper";
-import TypeWriter from "./Components/Pages/TypeWriter";
-// App.js
+import Loader from "./Components/BasicComponents/Loader";
+const Landing = lazy(() => import("./Components/Landing"));
+const Login = lazy(() => import("./Components/Auth/Login"));
+const Register = lazy(() => import("./Components/Auth/Register"));
+const Forgot = lazy(() => import("./Components/Auth/Forgot"));
+const ResetPassword = lazy(() => import("./Components/Auth/ResetPassword"));
+const Dashbaord = lazy(() => import("./Components/Layout/Dashboard"));
+const Dashboardmain = lazy(() => import("./Components/Pages/Dashboardmain"));
+const AddExpenses = lazy(() => import("./Components/Pages/AddExpenses"));
+const MonthlyExpense = lazy(() => import("./Components/Pages/MonthlyExpense"));
+const PageNotFound = lazy(() => import("./Components/BasicComponents/PageNotFound"));
+const Swiper = lazy(() => import("./Components/Pages/Swiper"));
+const TypeWriter = lazy(() => import("./Components/Pages/TypeWriter"));
+
 function App() {
   return (
-    <>
-      <BrowserRouter>
+    <BrowserRouter>
+      <Suspense fallback={<div><Loader/></div>}>
         <Routes>
           <Route path="*" element={<PageNotFound />} />
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/swip" element={<TypeWriter/>} />
+          <Route path="/swip" element={<TypeWriter />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot" element={<Forgot />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
-
           <Route path="/" element={<Dashbaord />}>
             <Route path="dashboard" element={<Dashboardmain />} />
             <Route path="add/expense" element={<AddExpenses />} />
             <Route path="monthly/expense" element={<MonthlyExpense />} />
           </Route>
         </Routes>
-      </BrowserRouter>
-    </>
+      </Suspense>
+    </BrowserRouter>
   );
 }
 

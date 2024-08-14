@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "./BasicComponents/Navbar";
 import Loader from "./BasicComponents/Loader";
 import img1 from "../assets/img/6.svg";
 import logo from "../assets/img/1.png";
 import img2 from "../assets/img/7.svg";
+import contactus from "../assets/img/Contactus.svg";
 import ravi from "../assets/img/ravi.jpg";
 import gaurav from "../assets/img/gaurav.jpg";
 import Carousel from "./BasicComponents/Carousel";
@@ -15,7 +16,54 @@ import PieChart from "../Components/BasicComponents/Pichart";
 import Barchart from "../Components/BasicComponents/Barchart";
 import Footer from "./BasicComponents/Footer";
 import TypeWriter from "./Pages/TypeWriter";
+import axios from "axios";
+import Swal from "sweetalert2";
 const Landing = () => {
+   const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    description: "",
+  });
+
+  const contactHandle = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevents the default form submission behavior
+
+    if (
+      formData.name === "" ||
+      formData.email === "" ||
+      formData.subject === "" ||
+      formData.description === ""
+    ) {
+      alert("Please fill all the fields");
+      return;
+    }
+
+    try {
+      const res = await axios.post(`${import.meta.env.VITE_BASEURL}/contact`, formData);
+      if (res.status === 200) {
+        Swal.fire({
+          title: "Success",
+          text: "We have received your message. We will get back to you shortly",
+          icon: "success",
+          confirmButtonText: "Okay",
+        });
+      }
+    } catch (error) {
+      console.error("Error during form submission:", error); // Log the error
+      Swal.fire({
+        title: "Error",
+        text: "Failed to send message",
+        icon: "error",
+        confirmButtonText: "Okay",
+      });
+    }
+  };
+
   return (
     <>
       <div className="container">
@@ -37,12 +85,16 @@ const Landing = () => {
             data-aos-duration="1000"
           >
             <div>
-
-              <h3 >Welcome to Expense Tracker WebApp, <span className="text-primary">< TypeWriter/></span> </h3>
+              <h3>
+                Welcome to Expense Tracker WebApp,{" "}
+                <span className="text-primary">
+                  <TypeWriter />
+                </span>{" "}
+              </h3>
               <p>
-              Managing your finances has never been simpler. With ExpenseTrackerPro, you can track your spending, create budgets, and save more effectively—all in one place.
-
-
+                Managing your finances has never been simpler. With
+                ExpenseTrackerPro, you can track your spending, create budgets,
+                and save more effectively—all in one place.
               </p>
               <Link to="/register" className="btn-primary1">
                 {" "}
@@ -56,7 +108,7 @@ const Landing = () => {
             data-aos-duration="1000"
           >
             {/* <img src={img1} alt="" className="img-fluid" /> */}
-            <Carousel/>
+            <Carousel />
           </div>
         </div>
 
@@ -215,10 +267,10 @@ const Landing = () => {
             >
               <h2>Meet the Developers</h2>
               <p>
-                We are committed to providing you
-                with the best expense tracking experience. With expertise in web
-                development, security, and user experience, we continuously
-                improve our app to meet your needs.
+                We are committed to providing you with the best expense tracking
+                experience. With expertise in web development, security, and
+                user experience, we continuously improve our app to meet your
+                needs.
               </p>
             </div>
           </div>
@@ -245,20 +297,28 @@ const Landing = () => {
                     applications.
                   </p>
                   <div>
-                  <Link to="https://www.linkedin.com/in/ravindra-kumar-99a1301b2/" className="btn-outline-primary me-3">
+                    <Link
+                      to="https://www.linkedin.com/in/ravindra-kumar-99a1301b2/"
+                      className="btn-outline-primary me-3"
+                    >
                       <i className="bi bi-linkedin fa-2x"></i>
                     </Link>
 
-                    <Link to="https://github.com/Ravindra9555" className="btn-outline-primary me-3">
+                    <Link
+                      to="https://github.com/Ravindra9555"
+                      className="btn-outline-primary me-3"
+                    >
                       <i className="bi bi-github fa-2x"></i>
                     </Link>
                     <Link to="/" className="btn-outline-primary me-3">
                       <i className="bi bi-twitter fa-2x"></i>
                     </Link>
-                    <Link to="https://www.instagram.com/ravindra2.dev" className="btn-outline-primary me-3">
+                    <Link
+                      to="https://www.instagram.com/ravindra2.dev"
+                      className="btn-outline-primary me-3"
+                    >
                       <i className="bi bi-instagram fa-2x"></i>
                     </Link>
-                   
                   </div>
                 </div>
               </div>
@@ -314,7 +374,26 @@ const Landing = () => {
           </div>
         </div>
       </div>
-    <Footer/>
+     <div className="row mt-2">
+          <div className="col-md-6 d-flex justify-content-center align-items-center" data-aos="fade-down" data-aos-duration="1000">
+            <img src={contactus} alt="" />
+          </div>
+          <div className="col-md-6" data-aos="fade-down" data-aos-duration="1000">
+            <h2 className="text-center">Contact Us</h2>
+            <form onSubmit={handleSubmit}>
+              <label htmlFor="name" className="form-label">Name</label>
+              <input type="text" name="name" onChange={contactHandle} placeholder="Name" className="form-control" required />
+              <label htmlFor="email" className="form-label">Email</label>
+              <input type="email" name="email" onChange={contactHandle} placeholder="Email" className="form-control" required />
+              <label htmlFor="subject" className="form-label">Subject</label>
+              <input type="text" name="subject" onChange={contactHandle} placeholder="Subject" className="form-control" required />
+              <label htmlFor="description" className="form-label">Message</label>
+              <textarea name="description" onChange={contactHandle} placeholder="Write description ..." className="form-control" rows="5" />
+              <button type="submit" className="btn-primary1 mt-3">Submit</button>
+            </form>
+          </div>
+        </div>
+      <Footer />
     </>
   );
 };
