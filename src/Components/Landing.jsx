@@ -19,13 +19,13 @@ import TypeWriter from "./Pages/TypeWriter";
 import axios from "axios";
 import Swal from "sweetalert2";
 const Landing = () => {
-   const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState({
     name: "",
     email: "",
     subject: "",
     description: "",
   });
-
+  const [loading, setLoading] = useState(false);
   const contactHandle = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -44,7 +44,11 @@ const Landing = () => {
     }
 
     try {
-      const res = await axios.post(`${import.meta.env.VITE_BASEURL}/contact`, formData);
+      setLoading(true);
+      const res = await axios.post(
+        `${import.meta.env.VITE_BASEURL}/api/v1/contact/contact`,
+        formData
+      );
       if (res.status === 200) {
         Swal.fire({
           title: "Success",
@@ -54,16 +58,21 @@ const Landing = () => {
         });
       }
     } catch (error) {
-      console.error("Error during form submission:", error); // Log the error
+      console.error("Error during form submission:", error);
+      setLoading(false); // Log the error
       Swal.fire({
         title: "Error",
         text: "Failed to send message",
         icon: "error",
         confirmButtonText: "Okay",
       });
+    } finally {
+      setLoading(false); // Reset loading state
     }
   };
-
+  if (loading) {
+    return <Loader />;
+  }
   return (
     <>
       <div className="container">
@@ -374,25 +383,72 @@ const Landing = () => {
           </div>
         </div>
       </div>
-     <div className="row mt-2">
-          <div className="col-md-6 d-flex justify-content-center align-items-center" data-aos="fade-down" data-aos-duration="1000">
-            <img src={contactus} alt="" />
+      <div className="mt-4 p-2 container">
+        <div className="row  mt-4">
+          <div
+            className="col-md-6 d-flex justify-content-center align-items-center"
+            data-aos="fade-down"
+            data-aos-duration="1000"
+          >
+            <img src={contactus} alt="" style={{ maxHeight: "500px" }} />
           </div>
-          <div className="col-md-6" data-aos="fade-down" data-aos-duration="1000">
+          <div
+            className="col-md-6 bg-white rounded "
+            data-aos="fade-down"
+            data-aos-duration="1000"
+          >
             <h2 className="text-center">Contact Us</h2>
             <form onSubmit={handleSubmit}>
-              <label htmlFor="name" className="form-label">Name</label>
-              <input type="text" name="name" onChange={contactHandle} placeholder="Name" className="form-control" required />
-              <label htmlFor="email" className="form-label">Email</label>
-              <input type="email" name="email" onChange={contactHandle} placeholder="Email" className="form-control" required />
-              <label htmlFor="subject" className="form-label">Subject</label>
-              <input type="text" name="subject" onChange={contactHandle} placeholder="Subject" className="form-control" required />
-              <label htmlFor="description" className="form-label">Message</label>
-              <textarea name="description" onChange={contactHandle} placeholder="Write description ..." className="form-control" rows="5" />
-              <button type="submit" className="btn-primary1 mt-3">Submit</button>
+              <label htmlFor="name" className="form-label">
+                Name
+              </label>
+              <input
+                type="text"
+                name="name"
+                onChange={contactHandle}
+                placeholder="Name"
+                className="form-control"
+                required
+              />
+              <label htmlFor="email" className="form-label">
+                Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                onChange={contactHandle}
+                placeholder="Email"
+                className="form-control"
+                required
+              />
+              <label htmlFor="subject" className="form-label">
+                Subject
+              </label>
+              <input
+                type="text"
+                name="subject"
+                onChange={contactHandle}
+                placeholder="Subject"
+                className="form-control"
+                required
+              />
+              <label htmlFor="description" className="form-label">
+                Message
+              </label>
+              <textarea
+                name="description"
+                onChange={contactHandle}
+                placeholder="Write description ..."
+                className="form-control"
+                rows="5"
+              />
+              <button type="submit" className="btn-primary1 mt-3">
+                Submit
+              </button>
             </form>
           </div>
         </div>
+      </div>
       <Footer />
     </>
   );
