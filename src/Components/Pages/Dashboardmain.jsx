@@ -5,17 +5,19 @@ import {
   faPiggyBank,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useState } from "react";
 import Barchart from "../BasicComponents/Barchart";
 import Pichart from "../BasicComponents/Pichart";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 import axios from "axios";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
 
 const Dashboardmain = () => {
+  const [selectedDate, setSelectedDate] = useState(dayjs()); // Default to current date
+
   const cardData = [
     {
       title: "Total Expenses",
@@ -42,41 +44,56 @@ const Dashboardmain = () => {
       value: "500",
     },
   ];
+
   const handleYearChange = (date) => {
     if (date) {
       const year = dayjs(date).year();
+      console.log("Selected Year:", year);
 
-      const month=dayjs(date).month();
-      console.log("Selected Year:", year, month);
-      // Call your function with the selected year here
-      // yourFunction(year);      getInfo
-    
-      infoByMonth(month,year);
+      // Call your function with the selected year
+      infoByMonth(year);
     }
   };
 
- const infoByMonth=( month ,yaer )=>{
-  const res= axios.get(`/api/`)
+  const infoByMonth = async (year) => {
+    try {
+      const response = await axios.get(`https://expense-tracker-backend-23ar.onrender.com/api/v1/expenses/expenses`, {
+        params: {
+          userId: '66abfaa29c5e06e20c021460',
+          year: year,
+        }
+      });
+      console.log(response.data); // Handle the response as needed
+    } catch (error) {
+      console.error("Error fetching data", error);
+    }
+  };
 
- }
   return (
     <div className="container">
       <div className="mt-2">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DemoContainer components={["DatePicker", "DatePicker"]}>
-            <DatePicker label={'Year'} openTo="year" value={dayjs(new Date().toLocaleDateString())}  onChange={handleYearChange}/>
-          </DemoContainer>
+          <DatePicker
+            views={['year']} // To select only year
+            label="Year"
+            value={selectedDate}
+            onChange={(newValue) => {
+              setSelectedDate(newValue);
+              handleYearChange(newValue);
+            }}
+            renderInput={(params) => <TextField {...params} />}
+          />
         </LocalizationProvider>
       </div>
       <div className="cards row mt-2">
         {cardData.map((card, index) => (
           <div className="col-md-3 mb-2" key={index}>
-            <div className=" bg-white p-2 rounded ">
+            <div className="bg-white p-2 rounded">
               <p className="card-title text-center">{card.title}</p>
-              <div className=" d-flex justify-content-center align-items-center mt-2">
+              <div className="d-flex justify-content-center align-items-center mt-2">
                 <FontAwesomeIcon
                   icon={card.icon}
-                  className={`fs-3  p-3   ${card.color} rounded-circle`}
+                  className={`fs-3 p-3 ${card.color} rounded-circle`}
                 />
                 <p className="card-text ms-3">
                   ₹ <strong>{card.value}</strong>
@@ -87,7 +104,7 @@ const Dashboardmain = () => {
         ))}
       </div>
 
-      <div className="mt-2  row">
+      <div className="mt-2 row">
         <div className="col-md-6 container-fluid">
           <Barchart />
         </div>

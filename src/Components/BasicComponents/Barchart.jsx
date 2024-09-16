@@ -1,98 +1,45 @@
-// import React from "react";
-// import { Chart } from "react-google-charts";
-
-// const Barchart = () => {
-//   const data = [
-//     ["Months", "Expenses"],
-//     ["Jan", 1000],
-//     ["Feb", 1170],
-//     ["March", 660],
-//     ["April", 1030],
-//     ["May", 850],
-//     ["June", 1500],
-//     ["July", 960],
-//     ["Aug", 1200],
-//     ["Sep", 1400],
-//     ["Oct", 1300],
-//     ["Nov", 900],
-//     ["Dec", 1100],
-//   ];
-
-//   const options = {
-//     chart: {
-//       title: "Monthly  Expense Chart",
-//       //   subtitle: "Sales, Expenses, and Profit: 2014-2017",
-//     },
-//   };
-//   return (
-//     <div>
-//       <Chart
-//         chartType="Bar"
-//         width="70%"
-//         height="400px"
-//         data={data}
-//         options={options}
-//       />
-//     </div>
-//   );
-// };
-
-// export default Barchart;
-
-//  import React from 'react'
-//  import { BarChart } from '@mui/x-charts/BarChart';
-//  const Barchart = () => {
-
-// const options = {
-//   responsive: true,
-//   maintainAspectRatio: false,
-//   // other options
-// };
-
-//    return (
-//      <div>
-//         <BarChart
-//       width={300}
-//      height={300}
-//       // options={[{responsive:true},{maintainAspectRatio:false}]
-
-//       // }
-// series={[
-//   { data: pData, label: 'pv', id: 'pvId', stack: 'total' },
-
-// ]}
-// xAxis={[{ data: xLabels, scaleType: 'band' }]}
-//     />
-//      </div>
-//    )
-//  }
-
-//  export default Barchart
-
-import React from "react";
-import { BarChart } from "@mui/x-charts/BarChart";
-
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { BarChart } from '@mui/x-charts/BarChart';
+import { bearerToken } from '../../utils/BearerToken';
+ import { useUser } from '../Context/UserContext';
 const Barchart = () => {
-  const pData = [
-    2400, 1398, 9800, 3908, 4800, 3800, 4300, 4556, 9600, 347, 545, 4456,
-  ];
-  const xLabels = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
+  const { user } = useUser();
+  const [pData, setPData] = useState([]);
+  const [xLabels, setXLabels] = useState([
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+  ]);
   const options = {
     responsive: true,
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_BASEURL}/api/v1/expenses/expenses?userId=${user.id}&year=2024`,{
+          headers: {
+            'Authorization': bearerToken()
+          }
+        });
+
+        const data = response.data.data;
+
+        // Initialize an array with 0 values for each month
+        const monthlyExpenses = new Array(12).fill(0);
+
+        // Update the array with actual expenses
+        data.forEach(expense => {
+          monthlyExpenses[expense.month - 1] = expense.totalExpenses;
+        });
+
+        setPData(monthlyExpenses);
+      } catch (error) {
+        console.error("Error fetching data", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className="chart-wrapper">
@@ -107,3 +54,4 @@ const Barchart = () => {
 };
 
 export default Barchart;
+
