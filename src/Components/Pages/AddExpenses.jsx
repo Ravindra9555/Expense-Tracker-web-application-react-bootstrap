@@ -241,20 +241,22 @@ const AddExpenses = () => {
             <Box className="row">
               <div className="col-md-6">
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DemoContainer components={["DatePicker"]}>
+                 
                     <DatePicker
                       label="Month/Year"
                       openTo="year"
                       views={["year", "month"]}
                       value={dayjs(`${formData.year}-${formData.month}-01`)}
                       onChange={handleYearChange}
+                      slotProps={{ textField: { size: 'small' } }}
                     />
-                  </DemoContainer>
+               
                 </LocalizationProvider>
               </div>
               <div className="col-md-6">
                 <TextField
                   sx={{ mt: 1 }}
+                  size="small"
                   id="initialAmount"
                   disabled={update}
                   value={initialAmount}
@@ -266,7 +268,8 @@ const AddExpenses = () => {
                 {update ? (
                   <Button
                     variant="contained"
-                    sx={{ mt: 1, ml: 2, p: 2 }}
+                    sx={{ mt: 1, ml: 2, }}
+                  
                     onClick={() => setUpdate(!update)}
                   >
                     Update
@@ -274,7 +277,7 @@ const AddExpenses = () => {
                 ) : (
                   <Button
                     variant="contained"
-                    sx={{ mt: 1, ml: 2, p: 2 }}
+                    sx={{ mt: 1, ml: 2, }}
                     onClick={updateAmount}
                   >
                     Add
@@ -393,7 +396,7 @@ const AddExpenses = () => {
               <div className="d-flex justify-content-end">
                 <Button
                   variant="contained"
-                  sx={{ mt: 1, ml: 2, p: 2 }}
+                  sx={{ mt: 1, ml: 2, }}
                   type="submit"
                 >
                   Add Expense

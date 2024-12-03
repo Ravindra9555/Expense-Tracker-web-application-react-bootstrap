@@ -1,8 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import logo from "../../assets/react.svg";
+import Logo from "../../assets/img/1.png";
 import { useUser } from "../Context/UserContext";
-import setting from "../../assets/img/user.gif";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button, Divider } from "@mui/material";
+import { faGear, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { Box, Modal, Typography, TextField, IconButton } from "@mui/material";
+import Swal from "sweetalert2";
+import axios from "axios";
+// Modal styles
+const modalStyle = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  p: 4,
+  borderRadius: 2,
+};
+
 const sidebar = [
   {
     label: "Dashboard",
@@ -55,11 +73,121 @@ const Dashboard = () => {
     localStorage.clear();
     navigate("/login");
   };
+  const [modal, setModal] = useState(false);
+  const handleModal = () => {
+    setModal((prev) => !prev);
+  };
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleChangePassword = async () => {
+    if (!oldPassword || !newPassword) {
+      Swal.fire({
+        title: "Error",
+        text: "Both fields are required!",
+        icon: "error",
+      });
+      return;
+    }
+
+    try {
+      setLoading(true);
+      // Replace this API call with your actual endpoint
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASEURL}/api/v1/users/changePassword`,
+        {
+          oldPassword,
+          newPassword,
+           userId: user.id,
+        },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+
+      if (response.status === 200 && response.data.success) {
+        Swal.fire({
+          title: "Success",
+          text: "Password changed successfully!",
+          icon: "success",
+        });
+        handleModal(); // Close the modal on success
+      }
+    } catch (error) {
+      Swal.fire({
+        title: "Error",
+        text: error.response?.data?.message || "Failed to change password",
+        icon: "error",
+      });
+      handleModal(); // Close the modal on success
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="container-fluid">
+      {modal && (
+        <Modal
+          open={modal}
+          onClose={() => setModal(false)}
+          aria-labelledby="change-password-modal"
+        >
+          <Box sx={modalStyle}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                mb: 2,
+              }}
+            >
+              <Typography
+                id="change-password-modal"
+                variant="h6"
+                component="h2"
+              >
+                Change Password
+              </Typography>
+              <IconButton onClick={() => setModal(false)}>
+                <FontAwesomeIcon icon={faXmark} />
+              </IconButton>
+            </Box>
+            <TextField
+              fullWidth
+              label="Old Password"
+              type="password"
+              variant="outlined"
+              margin="normal"
+              value={oldPassword}
+              onChange={(e) => setOldPassword(e.target.value)}
+            />
+            <TextField
+              fullWidth
+              label="New Password"
+              type="password"
+              variant="outlined"
+              margin="normal"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+            />
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              sx={{ mt: 2 }}
+              onClick={handleChangePassword}
+              disabled={loading}
+            >
+              {loading ? "Changing..." : "Change Password"}
+            </Button>
+          </Box>
+        </Modal>
+      )}
       <div className="row flex-nowrap">
         <div
-          className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-light"
+          className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-light shadow"
           // style={{ position: "fixed", height: "100vh", overflowY: "auto" }}
         >
           <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-black min-vh-100">
@@ -119,14 +247,14 @@ const Dashboard = () => {
         </div>
 
         <div
-          className="col py-1 px-0"
+          className="col py-1 px-0 "
           // style={{ marginLeft: "18%", width: "82%" }}
         >
           <nav className="navbar navbar-expand-lg bg-body-tertiary">
             <div className="container-fluid">
               <span className="navbar-brand">
                 <img
-                  src={logo}
+                  src={Logo}
                   alt="logo of website"
                   loading="lazy"
                   style={{
@@ -159,43 +287,49 @@ const Dashboard = () => {
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    <img
-                      src={setting}
-                      alt="hugenerd"
+                    <FontAwesomeIcon
+                      icon={faGear}
+                      className="text-primary fs-4"
                       width="50"
                       height="50"
                       data-bs-toggle="tooltip"
                       data-bs-placement="left"
                       title={user.email}
-                      className="rounded-circle"
-                    />
+                    >
+                      Hii
+                    </FontAwesomeIcon>
                   </span>
                   <ul
-                    className="dropdown-menu dropdown-menu-end dropdown-menu-light text-small shadow"
+                    className="dropdown-menu dropdown-menu-end dropdown-menu-light text-small shadow p-2"
                     aria-labelledby="dropdownUser1"
                   >
                     <li>
-                      <span className="dropdown-item">{user.email} </span>
+                      <Button className="dropdown-item">{user.email} </Button>
                     </li>
+                    <Divider sx={{ bgcolor: "blue", my: 1 }} />
                     <li>
-                      <li>
-                        <span className="dropdown-item">Profile</span>
-                      </li>
-                      <span className="dropdown-item">Change Password </span>
+                      <Button
+                        className="dropdown-item"
+                        variant="outlined"
+                        color="primary"
+                        onClick={() => handleModal()}
+                      >
+                        Change Password{" "}
+                      </Button>
                     </li>
-                    {/* <li>
-                      <hr className="dropdown-divider" />
-                    </li> */}
+                    <li className="mt-1">
+                      <Button
+                        className="dropdown-item"
+                        variant="outlined"
+                        color="error"
+                        mt={1}
+                        onClick={logout}
+                      >
+                        Logout{" "}
+                      </Button>
+                    </li>
                   </ul>
                 </div>
-                <button
-                  className=" btn btn-outline-danger d-none d-sm-inline  py-1 m-1"
-                  type="button"
-                  onClick={logout}
-                >
-                  Logout
-                  <i class="bi bi-box-arrow-right   me-1  ms-1 fs-5"></i>
-                </button>
               </div>
             </div>
           </nav>
