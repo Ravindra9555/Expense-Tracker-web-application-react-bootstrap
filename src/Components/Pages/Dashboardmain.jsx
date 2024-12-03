@@ -5,86 +5,85 @@ import {
   faPiggyBank,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Barchart from "../BasicComponents/Barchart";
 import Pichart from "../BasicComponents/Pichart";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 import axios from "axios";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-
+import { useUser } from "../Context/UserContext";
 
 const Dashboardmain = () => {
-  const [selectedDate, setSelectedDate] = useState(dayjs()); // Default to current date
-
+  const { user } = useUser();
+  const [selectedDate, setSelectedDate] = useState(dayjs().startOf("year"));
+  const [data, setData] = useState({
+    totalExp: "",
+    income: "",
+  });
   const cardData = [
     {
       title: "Total Expenses",
       icon: faMoneyBill,
       color: " text-danger  bg-danger-subtle",
-      value: "1200",
+      value: data.totalExp,
     },
     {
       title: "Total Income",
       icon: faMoneyCheckDollar,
       color: " text-success  bg-success-subtle",
-      value: "1500",
+      value: data.income,
     },
     {
       title: "Average Expenses",
       icon: faGauge,
       color: " text-warning  bg-warning-subtle",
-      value: "800",
+      value: (data.totalExp / 30).toFixed(2),
     },
     {
       title: "Savings",
       icon: faPiggyBank,
       color: " text-info  bg-info-subtle",
-      value: "500",
+      value: (data.income - data.totalExp).toFixed(2),
     },
   ];
 
-  const handleYearChange = (date) => {
-    if (date) {
-      const year = dayjs(date).year();
-      console.log("Selected Year:", year);
-
-      // Call your function with the selected year
-      infoByMonth(year);
-    }
-  };
+  useEffect(() => {
+    infoByMonth(new Date().getFullYear());
+  }, []);
 
   const infoByMonth = async (year) => {
     try {
-      const response = await axios.get(`https://expense-tracker-backend-23ar.onrender.com/api/v1/expenses/expenses`, {
-        params: {
-          userId: '66abfaa29c5e06e20c021460',
-          year: year,
+      const res = await axios.get(
+        `${import.meta.env.VITE_BASEURL}/api/v1/expenses/expenses`,
+        {
+          params: {
+            userId: user.id,
+            year: year,
+          },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
         }
-      });
-      console.log(response.data); // Handle the response as needed
+      );
+
+      if (res.status == 200) {
+        // Handle the response as needed
+        setData({
+          totalExp: res.data.data[0].totalExpenses,
+          income: res.data.data[0].initialAmount,
+        });
+      }
     } catch (error) {
       console.error("Error fetching data", error);
+      Swal.fire({
+        title: "Error",
+        text: error.resposnse.data.message || "Failed to fetch data",
+        icon: "error",
+      });
     }
   };
 
   return (
     <div className="container">
-      <div className="mt-2">
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            views={['year']} // To select only year
-            label="Year"
-            value={selectedDate}
-            onChange={(newValue) => {
-              setSelectedDate(newValue);
-              handleYearChange(newValue);
-            }}
-            renderInput={(params) => <TextField {...params} />}
-          />
-        </LocalizationProvider>
-      </div>
       <div className="cards row mt-2">
         {cardData.map((card, index) => (
           <div className="col-md-3 mb-2" key={index}>
