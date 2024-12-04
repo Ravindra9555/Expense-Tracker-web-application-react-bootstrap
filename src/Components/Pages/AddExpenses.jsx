@@ -363,8 +363,8 @@ const AddExpenses = () => {
                       </button>
                     ) : (
                       <>
-                        <div class="spinner-border text-success ms-2" role="status">
-                          <span class="visually-hidden">Generating...</span>
+                        <div className="spinner-border text-success ms-2" role="status">
+                          <span className="visually-hidden">Generating...</span>
                         </div>
                       </>
                     )}
