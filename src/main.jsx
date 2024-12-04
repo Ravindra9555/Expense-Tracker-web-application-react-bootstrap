@@ -16,9 +16,9 @@ import { UserProvider } from './Components/Context/UserContext.jsx';
 AOS.init();
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <UserProvider>
       <App />
     </UserProvider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );

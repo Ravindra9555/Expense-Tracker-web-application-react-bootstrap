@@ -10,7 +10,7 @@ import Loader from "../BasicComponents/Loader";
 
 const Register = () => {
   const [loading, setLoading] = useState(false);
-  const [sendOtp, setSendOtp] = useState(false);
+
   const navigate = useNavigate();
   const [data, setData] = useState({
     email: "",
@@ -60,15 +60,19 @@ const Register = () => {
 
       console.log("Response:", res); // Log the response
       if (res.status === 200 && res.data.statusCode === 200) {
-        toast.success(res.data.message);
+         Swal.fire({
+          title: "Success!",
+          text: "Registration Successful! Redirecting to Login...",
+          icon: "success",
+          confirmButtonText: "Okay",
+         })
+        setLoading(false);
+        setTimeout(() => {
+          navigate("/login");
+        }, 1000);
       }
-      setLoading(false);
-      // setTimeout(() => {
-      //   navigate("/login");
-      // }, 1000);
-      setSendOtp(true);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       Swal.fire({
         title: "Error!",
         text: error.response.data.message,
@@ -81,46 +85,6 @@ const Register = () => {
 
   const onChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
-  };
-
-
-  const [otp, setOtp] = useState("");
-  const submitOtp = async (e) => {
-    e.preventDefault();
-    try {
-      setLoading(true);
-      const res = await axios.post(
-        `${import.meta.env.VITE_BASEURL}/api/v1/verifyOtp/verify`,
-        { email: data.email, otp: otp }
-      );
-
-      // Check the response data
-      if (res.data.statusCode === 200 && res.data.success === true) {
-        toast.success("Registration Successful");
-        setLoading(false);
-        setTimeout(() => {
-          navigate("/login");
-        }, 1500);
-      } else {
-        // Handle unexpected response
-        setLoading(false);
-        Swal.fire({
-          title: "Error!",
-          text: "OTP verification failed.",
-          icon: "error",
-          confirmButtonText: "Okay",
-        });
-      }
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-      Swal.fire({
-        title: "Error while verifying",
-        text: error.response?.data?.message || "An unexpected error occurred.",
-        icon: "error",
-        confirmButtonText: "Okay",
-      });
-    }
   };
 
   const [showPass, setShowPass] = useState(true);
@@ -146,143 +110,104 @@ const Register = () => {
             className="container d-flex justify-content-center  mt-4"
             style={{ height: "100vh", width: "60vw" }}
           >
-            {sendOtp ? (
-              <>
-                <div
-                  className="  d-flex justify-content-center  align-items-center rounded "
-                  style={{ height: "100vh" }}
-                  data-aos="zoom-in"
-                  data-aos-duration="1500"
-                >
-                  <div
-                    className="  bg-light rounded"
-                  >
-                    <div className="rounded  p-4 mt-3">
-                      <h6 className="text-center">Verification Code Sent</h6>
-                      <p className="text-center">
-                        Please enter the verification code sent to your email{" "}
-                      </p>
-                      <form className="mt-4 p-4" onSubmit={submitOtp}>
-                        <label htmlFor="" className="form-label">
-                          Verification Code
-                        </label>
-                        <input
-                          type="text"
-                          id=""
-                          required
-                          name="verificationCode"
-                          className="form-control"
-                          placeholder="Please enter the verification code"
-                          onChange={(e) => setOtp(e.target.value)}
-                        />
-                        <button
-                          type="submit"
-                          className="btn-primary1 mt-4 w-100"
-                        >
-                          Verify
-                        </button>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </>
-            ) : (
-              <>
-                <div
-                  className="row   rounded   mt-4"
-                  data-aos="zoom-in"
-                  data-aos-duration="1500"
-                >
-                  <div className="col-md-6 bg-light" style={{height:"80%"}}>
-                    <h6 className="text-center mt-4">
-                      Welcome to Expense Tracker
-                    </h6>
-                    <form className="mt-4 p-4" onSubmit={submitForm}>
-                      <label htmlFor="" className="form-label">
-                        Email
-                      </label>
+            <>
+              <div
+                className="row   rounded   mt-4"
+                data-aos="zoom-in"
+                data-aos-duration="1500"
+              >
+                <div className="col-md-6 bg-light" style={{ height: "80%" }}>
+                  <h6 className="text-center mt-4">
+                    Welcome to Expense Tracker
+                  </h6>
+                  <form className="mt-4 p-4" onSubmit={submitForm}>
+                    <label htmlFor="" className="form-label">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      id=""
+                      required
+                      name="email"
+                      className="form-control"
+                      placeholder="Please enter your email "
+                      onChange={onChange}
+                    />
+                    <label htmlFor="" className="form-label mt-2">
+                      Password
+                    </label>
+                    <div className="d-flex">
                       <input
-                        type="email"
+                        type={text}
                         id=""
+                        min={8}
                         required
-                        name="email"
-                        className="form-control"
-                        placeholder="Please enter your email "
+                        name="password"
+                        placeholder="Please enter your password"
+                        className="form-control border-end-0 rounded-end-0 "
                         onChange={onChange}
                       />
-                      <label htmlFor="" className="form-label mt-2">
-                        Password
-                      </label>
-                      <div className="d-flex">
-                        <input
-                          type={text}
-                          id=""
-                          min={8}
-                          required
-                          name="password"
-                          placeholder="Please enter your password"
-                          className="form-control border-end-0 rounded-end-0 "
-                          onChange={onChange}
-                        />
-                        <div className=" rounded-end border-top border-bottom border-end p-2">
-                          {showPass ? (
-                            <i
-                              onClick={showPassword}
-                              className="bi  bi-eye-slash  m-0 p-0 "
-                            ></i>
-                          ) : (
-                            <i
-                              onClick={showPassword}
-                              className="bi bi-eye m-0 p-0 "
-                            ></i>
-                          )}
-                        </div>
+                      <div className=" rounded-end border-top border-bottom border-end p-2">
+                        {showPass ? (
+                          <i
+                            onClick={showPassword}
+                            className="bi  bi-eye-slash  m-0 p-0 "
+                          ></i>
+                        ) : (
+                          <i
+                            onClick={showPassword}
+                            className="bi bi-eye m-0 p-0 "
+                          ></i>
+                        )}
                       </div>
-                      <label htmlFor="" className="form-label mt-2">
-                        Confirm Password
-                      </label>
-                      <div className="d-flex">
-                        <input
-                          type={text}
-                          id=""
-                          min={8}
-                          required
-                          name="confirmPassword"
-                          placeholder="Please enter your password again"
-                          className="form-control border-end-0 rounded-end-0 "
-                          onChange={onChange}
-                        />
-                        <div className=" rounded-end border-top border-bottom border-end p-2">
-                          {showPass ? (
-                            <i
-                              onClick={showPassword}
-                              className="bi  bi-eye-slash  m-0 p-0 "
-                            ></i>
-                          ) : (
-                            <i
-                              onClick={showPassword}
-                              className="bi bi-eye m-0 p-0 "
-                            ></i>
-                          )}
-                        </div>
-                      </div>
-                      <div className="mt-2">
-                        <button type="submit" className=" btn-primary1 w-100">
-                          Register
-                        </button>
-                      </div>
-                    </form>
-                    <div className="mt-2 text-center">
-                      Already! have an account?
-                      <Link to="/login">login</Link>
                     </div>
-                  </div>
-                  <div className="col-md-6  d-flex background-secondary  align-item-center"  style={{height:"80%"}}>
-                    <img src={img} alt="login" className="img-fluid " />
+                    <label htmlFor="" className="form-label mt-2">
+                      Confirm Password
+                    </label>
+                    <div className="d-flex">
+                      <input
+                        type={text}
+                        id=""
+                        min={8}
+                        required
+                        name="confirmPassword"
+                        placeholder="Please enter your password again"
+                        className="form-control border-end-0 rounded-end-0 "
+                        onChange={onChange}
+                      />
+                      <div className=" rounded-end border-top border-bottom border-end p-2">
+                        {showPass ? (
+                          <i
+                            onClick={showPassword}
+                            className="bi  bi-eye-slash  m-0 p-0 "
+                          ></i>
+                        ) : (
+                          <i
+                            onClick={showPassword}
+                            className="bi bi-eye m-0 p-0 "
+                          ></i>
+                        )}
+                      </div>
+                    </div>
+                    <div className="mt-2">
+                      <button type="submit" className=" btn-primary1 w-100">
+                        Register
+                      </button>
+                    </div>
+                  </form>
+                  <div className="mt-2 text-center">
+                    Already! have an account?
+                    <Link to="/login">login</Link>
                   </div>
                 </div>
-              </>
-            )}
+                <div
+                  className="col-md-6  d-flex background-secondary  align-item-center"
+                  style={{ height: "80%" }}
+                >
+                  <img src={img} alt="login" className="img-fluid " />
+                </div>
+              </div>
+            </>
 
             <ToastContainer autoClose={1500} />
           </div>

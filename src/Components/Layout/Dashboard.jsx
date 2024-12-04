@@ -68,10 +68,47 @@ const Dashboard = () => {
   if (!user) {
     return <Redirect to="/login" />;
   }
-  const logout = () => {
-    localStorage.removeItem("user");
-    localStorage.clear();
-    navigate("/login");
+
+  const logout = async () => {
+    try {
+      const res = await axios.post(`${import.meta.env.VITE_BASEURL}/api/v1/users/logout`,{},{
+        headers:{
+          authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        }
+      });
+      if (res.status == 200) {
+        Swal.fire({
+          title: "Success",
+          text: "Logged Out Successfully!",
+          icon: "success",
+        });
+        localStorage.removeItem("access_token");
+        navigate("/");
+        window.location.reload();
+      }
+    } catch (error) {
+      console.log(error);
+       if(error.response?.status==403 || error.response?.data?.errors?.stausCode==403){
+         Swal.fire({
+           title: "Error",
+           text: "Session Expired! Please Login again!",
+           icon: "error",
+         });
+         localStorage.removeItem("access_token");
+         navigate("/");
+         window.location.reload();
+       }
+      Swal.fire({
+        title: "Error",
+        text: error.response?.data?.message || "Failed to logout!",
+        icon: "error",
+      });
+
+    }
+
+    // localStorage.removeItem("user");
+    // localStorage.clear();
+    // navigate("/login");
   };
   const [modal, setModal] = useState(false);
   const handleModal = () => {
@@ -99,7 +136,7 @@ const Dashboard = () => {
         {
           oldPassword,
           newPassword,
-           userId: user.id,
+          userId: user.id,
         },
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },

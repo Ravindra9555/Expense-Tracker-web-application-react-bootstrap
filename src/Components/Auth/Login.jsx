@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import Swal from "sweetalert2";
@@ -19,6 +19,40 @@ const Login = () => {
     email: "",
     password: "",
   });
+  useEffect(() => {
+    loginByToken();
+  }, []);
+
+  const loginByToken = async () => {
+    const getRefreshToken = localStorage.getItem("refresh_token");
+
+    if (getRefreshToken) {
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_BASEURL}/api/v1/users/verifyAccessToken`,
+          { refreshToken: getRefreshToken }
+        );
+
+        if (response.status === 200 && response.data.success) {
+          localStorage.setItem("access_token", response.data.data.accessToken);
+          localStorage.setItem(
+            "refresh_token",
+            response.data.data.refreshToken
+          );
+          setUser({
+            id: response.data.data.user._id,
+            email: response.data.data.user.email,
+          });
+          
+          setTimeout(() => {
+            navigate("/dashboard");
+          }, 100);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
   const onChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -57,7 +91,13 @@ const Login = () => {
 
       console.log("Response:", res); // Log the response
       if (res.status === 200 && res.data.statusCode === 200) {
-        toast.success(res.data.message);
+        Swal.fire({
+          title: "Success!",
+          text: "Login Successful! Redirecting to Dashboard...",
+          icon: "success",
+          showConfirmButton: "false",
+          timer: 1500,
+        });
 
         setUser({
           id: res.data.data.user._id,
@@ -71,7 +111,7 @@ const Login = () => {
       navigate("/dashboard");
     } catch (error) {
       setLoading(false);
-      console.log(error);
+      // console.log(error);
       if (error.response && error.response.status === 403) {
         setShowOtpForm(true);
         toast.warning(error.response.data.message);
@@ -150,16 +190,18 @@ const Login = () => {
           {!showOtpForm ? (
             <div
               className="container d-flex justify-content-center mt-4"
-              style={{ height: "100vh",width: "100wh" }}
+              style={{ height: "100vh", width: "100wh" }}
             >
               <div
                 className="row  rounded   mt-4"
-                style={{ width: "80%"}}
+                style={{ width: "80%" }}
                 data-aos="zoom-in"
                 data-aos-duration="1500"
               >
-                <div className="col-md-6 bg-light "  style={{height:"80%"}}>
-                  <h6 className="text-center mt-4">Welcome to Expense Tracker</h6>
+                <div className="col-md-6 bg-light " style={{ height: "80%" }}>
+                  <h6 className="text-center mt-4">
+                    Welcome to Expense Tracker
+                  </h6>
                   <form className="mt-4 p-4" onSubmit={submitForm}>
                     <label htmlFor="" className="form-label">
                       Email
@@ -228,14 +270,17 @@ const Login = () => {
                     <Link to="/register">Register</Link>
                   </div>
                 </div>
-              <div className="col-md-6 background-secondary d-flex justify-content-center align-items-center"  style={{height:"80%"}}>
-                <img
-                  src={img}
-                  alt="login"
-                  className="img-fluid "
-                  style={{ height: "100%" }}
-                />
-              </div>
+                <div
+                  className="col-md-6 background-secondary d-flex justify-content-center align-items-center"
+                  style={{ height: "80%" }}
+                >
+                  <img
+                    src={img}
+                    alt="login"
+                    className="img-fluid "
+                    style={{ height: "100%" }}
+                  />
+                </div>
               </div>
             </div>
           ) : (
