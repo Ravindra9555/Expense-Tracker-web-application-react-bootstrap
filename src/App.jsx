@@ -12,7 +12,6 @@ const Dashboardmain = lazy(() => import("./Components/Pages/Dashboardmain"));
 const AddExpenses = lazy(() => import("./Components/Pages/AddExpenses"));
 const MonthlyExpense = lazy(() => import("./Components/Pages/MonthlyExpense"));
 const PageNotFound = lazy(() => import("./Components/BasicComponents/PageNotFound"));
-const Swiper = lazy(() => import("./Components/Pages/Swiper"));
 const TypeWriter = lazy(() => import("./Components/Pages/TypeWriter"));
 
 function App() {
